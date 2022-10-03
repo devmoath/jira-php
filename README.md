@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/devmoath/jira-php/master/art/example.png" width="600" alt="Jira PHP">
+    <img src="https://raw.githubusercontent.com/devmoath/jira-php/master/art/example.png" width="1000" alt="Jira PHP">
     <p align="center">
         <a href="https://github.com/devmoath/jira-php/actions"><img alt="GitHub Workflow Status (master)" src="https://img.shields.io/github/workflow/status/devmoath/jira-php/Tests/master"></a>
         <a href="https://packagist.org/packages/devmoath/jira-php"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/devmoath/jira-php"></a>
@@ -29,11 +29,9 @@ Then, interact with Jira's API:
 ```php
 $client = Jira::client('USERNAME', 'PASSWORD', 'jira.domain.com');
 
-$result = $client->issues()->create([
-    'summary' => 'Testing in production',
-]);
+$result = $client->issues()->list();
 
-echo $result['issueKey']; // TES-1000
+echo $result['issues'][0]['key']; // KEY-1000
 ```
 
 ## Usage
