@@ -1,0 +1,61 @@
+{
+    "name": "devmoath/jira-php",
+    "description": "Jira PHP is a supercharged PHP API client that allows you to interact with the Jira API",
+    "keywords": ["php", "jira", "sdk", "codex", "api", "client"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Moath Alhajri",
+            "email": "moath.alhajrii@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1.0",
+        "guzzlehttp/guzzle": "^7.5.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.2.0",
+        "nunomaduro/collision": "^7.0.0",
+        "pestphp/pest": "^2.0.0",
+        "pestphp/pest-plugin-mock": "^2.0.0",
+        "phpstan/phpstan": "^1.8.6",
+        "rector/rector": "^0.14.4",
+        "symfony/var-dumper": "^6.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jira\\": "src/"
+        },
+        "files": [
+            "src/Jira.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "lint": "pint -v",
+        "refactor": "rector --debug",
+        "test:lint": "pint --test -v",
+        "test:refactor": "rector --dry-run",
+        "test:types": "phpstan analyse --ansi",
+        "test:unit": "pest --colors=always",
+        "test": [
+            "@test:lint",
+            "@test:refactor",
+            "@test:types",
+            "@test:unit"
+        ]
+    }
+}
