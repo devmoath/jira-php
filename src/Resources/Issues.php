@@ -38,9 +38,9 @@ final class Issues
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue-getIssue
      *
-     * @param  string  $key
      * @param  array<string, string>  $parameters
      * @return array{expand: string, id: string, self: string, key: string, fields: array<string, mixed>}
+     *
      * @throws \Jira\Exceptions\ErrorException
      * @throws \Jira\Exceptions\TransporterException
      * @throws \Jira\Exceptions\UnserializableResponse
