@@ -31,26 +31,30 @@ final class Payload
 
     /**
      * Creates a new Payload value object from the given parameters.
+     *
+     * @param  array<string, string>  $parameters
      */
-    public static function list(string $resource): self
+    public static function list(string $resource, array $parameters): self
     {
         $contentType = ContentType::JSON;
         $method = Method::GET;
         $uri = ResourceUri::list($resource);
 
-        return new self($contentType, $method, $uri);
+        return new self($contentType, $method, $uri, $parameters);
     }
 
     /**
      * Creates a new Payload value object from the given parameters.
+     *
+     * @param  array<string, string>  $parameters
      */
-    public static function retrieve(string $resource, string $id, string $suffix = ''): self
+    public static function retrieve(string $resource, string $id, array $parameters = []): self
     {
         $contentType = ContentType::JSON;
         $method = Method::GET;
-        $uri = ResourceUri::retrieve($resource, $id, $suffix);
+        $uri = ResourceUri::retrieve($resource, $id);
 
-        return new self($contentType, $method, $uri);
+        return new self($contentType, $method, $uri, $parameters);
     }
 
     /**
@@ -132,13 +136,20 @@ final class Payload
         if ($this->method === Method::POST) {
             if ($this->contentType === ContentType::MULTIPART) {
                 $body = new MultipartStream(
-                    array_map(fn ($key): array => ['name' => $key, 'contents' => $this->parameters[$key]], array_keys($this->parameters))
+                    array_map(
+                        callback: fn ($key): array => ['name' => $key, 'contents' => $this->parameters[$key]],
+                        array: array_keys($this->parameters)
+                    )
                 );
 
                 $headers = $headers->withContentType($this->contentType, '; boundary='.$body->getBoundary());
             } else {
                 $body = json_encode($this->parameters, JSON_THROW_ON_ERROR);
             }
+        }
+
+        if ($this->method === Method::GET && ! empty($this->parameters)) {
+            $uri .= '?'.http_build_query($this->parameters);
         }
 
         return new Psr7Request($this->method->value, $uri, $headers->toArray(), $body);
