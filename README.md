@@ -43,15 +43,23 @@ echo $result['issues'][0]['key']; // KEY-1000
 Lists the currently available issues, and provides information about each one.
 
 ```php
-$client->issues()->list(); // ['issues' => [...], ...]
+$client->issues()->list(); // [..., 'issues' => [...], ...]
+```
+
+#### `retrieve`
+
+Returns information about a specific issue.
+
+```php
+$client->issues()->retrieve(); // [..., 'fields' => [...], ...]
 ```
 
 #### `FUNCTION_NAME`
 
 FUNCTION_DESCRIPTION.
 
-```PROPPLEY_PHP
-CODE_SNIPPET
+```php
+// CODE_SNIPPET
 ```
 
 ---
