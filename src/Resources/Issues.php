@@ -11,7 +11,7 @@ final class Issues
     use Concerns\Transportable;
 
     /**
-     * Creates a completion for the provided prompt and parameters
+     * Lists the currently available issues, and provides information about each one.
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/search-search
      *
