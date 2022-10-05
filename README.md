@@ -62,6 +62,14 @@ FUNCTION_DESCRIPTION.
 // CODE_SNIPPET
 ```
 
+#### `create`
+
+Creates new issue for the provided parameters.
+
+```php
+$client->issues()->create(); // [..., 'key' => 'KEY-1000', ...]
+```
+
 ---
 
 Jira PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.

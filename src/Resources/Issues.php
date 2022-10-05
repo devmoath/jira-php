@@ -11,6 +11,28 @@ final class Issues
     use Concerns\Transportable;
 
     /**
+     * Creates new issue for the provided parameters.
+     *
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue-createIssue
+     *
+     * @param  array<string, mixed>  $parameters
+     * @return array{id: string, key: string, self: string}
+     * @throws \Jira\Exceptions\ErrorException
+     * @throws \Jira\Exceptions\TransporterException
+     * @throws \Jira\Exceptions\UnserializableResponse
+     * @throws \JsonException
+     */
+    public function create(array $parameters): array
+    {
+        $payload = Payload::create('issue', $parameters);
+
+        /** @var array{id: string, key: string, self: string} $result */
+        $result = $this->transporter->request($payload);
+
+        return $result;
+    }
+
+    /**
      * Lists the currently available issues, and provides information about each one.
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/search-search
