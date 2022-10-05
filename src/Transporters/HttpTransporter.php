@@ -31,7 +31,7 @@ final class HttpTransporter implements Transporter
     /**
      * {@inheritDoc}
      */
-    public function requestObject(Payload $payload): array
+    public function request(Payload $payload): array
     {
         $request = $payload->toRequest($this->baseUri, $this->headers);
 
@@ -52,39 +52,12 @@ final class HttpTransporter implements Transporter
 
         if (! empty($response['errorMessages'])) {
             throw new ErrorException($response['errorMessages']);
-        } elseif (! empty($response['errors'])) {
+        }
+
+        if (! empty($response['errors'])) {
             throw new ErrorException($response['errors']);
         }
 
         return $response;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function requestContent(Payload $payload): string
-    {
-        $request = $payload->toRequest($this->baseUri, $this->headers);
-
-        try {
-            $response = $this->client->sendRequest($request);
-        } catch (ClientExceptionInterface $clientException) {
-            throw new TransporterException($clientException);
-        }
-
-        $contents = $response->getBody()->getContents();
-
-        try {
-            /** @var array{error?: array{message: string, type: string, code: string}} $response */
-            $response = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
-
-            if (isset($response['error'])) {
-                throw new ErrorException($response['error']);
-            }
-        } catch (JsonException) {
-            // ..
-        }
-
-        return $contents;
     }
 }
