@@ -11,11 +11,11 @@ final class ErrorException extends Exception
     /**
      * Creates a new Exception instance.
      *
-     * @param  array{message: string, type: string, code: string}  $contents
+     * @param  array<string|int, string>  $contents
      */
     public function __construct(private readonly array $contents)
     {
-        parent::__construct($contents['message']);
+        parent::__construct($contents[0]);
     }
 
     /**
@@ -27,18 +27,12 @@ final class ErrorException extends Exception
     }
 
     /**
-     * Returns the error type.
+     * Returns the error content.
+     *
+     * @return array<string|int, string>
      */
-    public function getErrorType(): string
+    public function getErrorContent(): array
     {
-        return $this->contents['type'];
-    }
-
-    /**
-     * Returns the error type.
-     */
-    public function getErrorCode(): string
-    {
-        return $this->contents['code'];
+        return $this->contents;
     }
 }
