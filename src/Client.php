@@ -19,6 +19,7 @@ final class Client
 
     /**
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/search-search
      */
     public function issues(): Issues
     {
