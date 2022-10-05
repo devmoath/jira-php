@@ -46,9 +46,9 @@ final class ResourceUri implements Stringable
     /**
      * Creates a new ResourceUri value object that retrieves the given resource.
      */
-    public static function retrieve(string $resource, string $id, string $suffix): self
+    public static function retrieve(string $resource, string $id): self
     {
-        return new self("$resource/$id$suffix");
+        return new self("$resource/$id");
     }
 
     /**
