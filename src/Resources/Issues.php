@@ -17,6 +17,7 @@ final class Issues
      *
      * @param  array<string, mixed>  $parameters
      * @return array{id: string, key: string, self: string}
+     *
      * @throws \Jira\Exceptions\ErrorException
      * @throws \Jira\Exceptions\TransporterException
      * @throws \Jira\Exceptions\UnserializableResponse
