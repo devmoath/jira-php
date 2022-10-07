@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jira\Transporters;
 
 use Jira\Contracts\Transporter;
-use Jira\Exceptions\ErrorException;
 use Jira\Exceptions\TransporterException;
 use Jira\Exceptions\UnserializableResponse;
 use Jira\ValueObjects\Transporter\BaseUri;

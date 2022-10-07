@@ -84,9 +84,8 @@ final class Issues
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue-editIssue
      *
-     * @param  string  $key
      * @param  array<string, mixed>  $parameters
-     * @return void
+     *
      * @throws \Jira\Exceptions\ErrorException
      * @throws \Jira\Exceptions\TransporterException
      * @throws \Jira\Exceptions\UnserializableResponse
