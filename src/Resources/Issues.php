@@ -71,7 +71,7 @@ final class Issues
      */
     public function retrieve(string $key, array $parameters = []): array
     {
-        $payload = Payload::retrieve('issue', $key);
+        $payload = Payload::retrieve('issue', $key, $parameters);
 
         /** @var array{expand: string, id: string, self: string, key: string, fields: array<string, mixed>} $result */
         $result = $this->transporter->request($payload);
