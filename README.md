@@ -70,6 +70,14 @@ Edit information about a specific issue.
 $client->issues()->edit('KEY', [ 'fields' => [ 'summary' => 'test' ] ]);
 ```
 
+#### `transition`
+
+Perform a transition on a specific issue.
+
+```php
+$client->issues()->transition('KEY', ['transition' => ['id' => 1]]);
+```
+
 #### `FUNCTION_NAME`
 
 FUNCTION_DESCRIPTION.

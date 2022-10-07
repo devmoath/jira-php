@@ -97,4 +97,23 @@ final class Issues
 
         $this->transporter->request($payload);
     }
+
+    /**
+     * Perform a transition on a specific issue.
+     *
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue-doTransition
+     *
+     * @param  array<string, mixed>  $parameters
+     *
+     * @throws \Jira\Exceptions\ErrorException
+     * @throws \Jira\Exceptions\TransporterException
+     * @throws \Jira\Exceptions\UnserializableResponse
+     * @throws \JsonException
+     */
+    public function transition(string $key, array $parameters = []): void
+    {
+        $payload = Payload::transition('issue', $key, $parameters);
+
+        $this->transporter->request($payload);
+    }
 }

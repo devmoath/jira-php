@@ -90,6 +90,20 @@ final class Payload
      *
      * @param  array<string, mixed>  $parameters
      */
+    public static function transition(string $resource, string $id, array $parameters): self
+    {
+        $contentType = ContentType::JSON;
+        $method = Method::POST;
+        $uri = ResourceUri::transition($resource, $id);
+
+        return new self($contentType, $method, $uri, $parameters);
+    }
+
+    /**
+     * Creates a new Payload value object from the given parameters.
+     *
+     * @param  array<string, mixed>  $parameters
+     */
     public static function upload(string $resource, array $parameters): self
     {
         $contentType = ContentType::MULTIPART;
