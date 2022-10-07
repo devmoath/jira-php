@@ -18,9 +18,9 @@ interface Transporter
     /**
      * Sends a request to a server.
      *
-     * @return array<array-key, mixed>
+     * @return array<array-key, mixed>|null
      *
      * @throws ErrorException|UnserializableResponse|TransporterException|JsonException
      */
-    public function request(Payload $payload): array;
+    public function request(Payload $payload): ?array;
 }

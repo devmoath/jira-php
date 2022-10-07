@@ -31,7 +31,7 @@ final class HttpTransporter implements Transporter
     /**
      * {@inheritDoc}
      */
-    public function request(Payload $payload): array
+    public function request(Payload $payload): ?array
     {
         $request = $payload->toRequest($this->baseUri, $this->headers);
 
@@ -42,6 +42,10 @@ final class HttpTransporter implements Transporter
         }
 
         $contents = $response->getBody()->getContents();
+
+        if ($contents === '') {
+            return null;
+        }
 
         try {
             /** @var array{errorMessages?: array<string>, errors?: array<string, string>} $response */
