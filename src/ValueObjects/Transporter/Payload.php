@@ -62,6 +62,20 @@ final class Payload
      *
      * @param  array<string, mixed>  $parameters
      */
+    public static function edit(string $resource, string $id, array $parameters = []): self
+    {
+        $contentType = ContentType::JSON;
+        $method = Method::PUT;
+        $uri = ResourceUri::edit($resource, $id);
+
+        return new self($contentType, $method, $uri, $parameters);
+    }
+
+    /**
+     * Creates a new Payload value object from the given parameters.
+     *
+     * @param  array<string, mixed>  $parameters
+     */
     public static function create(string $resource, array $parameters): self
     {
         $contentType = ContentType::JSON;
@@ -109,7 +123,7 @@ final class Payload
 
         $headers = $headers->withContentType($this->contentType);
 
-        if ($this->method === Method::POST) {
+        if (in_array(needle: $this->method, haystack: [Method::POST, Method::PUT], strict: true)) {
             if ($this->contentType === ContentType::MULTIPART) {
                 $body = new MultipartStream(
                     array_map(

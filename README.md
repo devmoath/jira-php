@@ -54,20 +54,28 @@ Returns information about a specific issue.
 $client->issues()->retrieve(); // [..., 'fields' => [...], ...]
 ```
 
+#### `create`
+
+Creates new issue for the provided parameters.
+
+```php
+$client->issues()->create(['fields' => ['project' => ['id' => '1', /* ... */]]]); // [..., 'key' => 'KEY-1000', ...]
+```
+
+#### `edit`
+
+Edit information about a specific issue.
+
+```php
+$client->issues()->edit('KEY', [ 'fields' => [ 'summary' => 'test' ] ]);
+```
+
 #### `FUNCTION_NAME`
 
 FUNCTION_DESCRIPTION.
 
 ```php
 // CODE_SNIPPET
-```
-
-#### `create`
-
-Creates new issue for the provided parameters.
-
-```php
-$client->issues()->create(); // [..., 'key' => 'KEY-1000', ...]
 ```
 
 ---
