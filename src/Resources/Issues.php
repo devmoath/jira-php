@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jira\Resources;
 
+use Jira\Enums\Transporter\ContentType;
+use Jira\Enums\Transporter\Method;
+use Jira\ValueObjects\ResourceUri;
 use Jira\ValueObjects\Transporter\Payload;
 
 final class Issues
@@ -25,7 +28,12 @@ final class Issues
      */
     public function create(array $parameters): array
     {
-        $payload = Payload::create('issue', $parameters);
+        $payload = new Payload(
+            contentType: ContentType::JSON,
+            method: Method::POST,
+            uri: new ResourceUri('api/2/issue'),
+            parameters: $parameters,
+        );
 
         /** @var array{id: string, key: string, self: string} $result */
         $result = $this->transporter->request($payload);
@@ -38,7 +46,7 @@ final class Issues
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/search-search
      *
-     * @param  array<string, string>  $parameters
+     * @param  array{jql?: string, startAt?: int, maxResults?: int, validateQuery?: bool, fields?: string, expand?: string}  $parameters
      * @return array{expand: string, startAt: int, maxResults: int, total: int, issues: array<int, array<string, mixed>>}
      *
      * @throws \Jira\Exceptions\ErrorException
@@ -48,7 +56,12 @@ final class Issues
      */
     public function list(array $parameters = []): array
     {
-        $payload = Payload::list('search', $parameters);
+        $payload = new Payload(
+            contentType: ContentType::JSON,
+            method: Method::GET,
+            uri: new ResourceUri('api/2/search'),
+            parameters: $parameters,
+        );
 
         /** @var array{expand: string, startAt: int, maxResults: int, total: int, issues: array<int, array<string, mixed>>} $result */
         $result = $this->transporter->request($payload);
@@ -61,7 +74,7 @@ final class Issues
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue-getIssue
      *
-     * @param  array<string, string>  $parameters
+     * @param  array{fields?: string, expand?: string, properties?: string, updateHistory?: bool}  $parameters
      * @return array{expand: string, id: string, self: string, key: string, fields: array<string, mixed>}
      *
      * @throws \Jira\Exceptions\ErrorException
@@ -71,7 +84,12 @@ final class Issues
      */
     public function retrieve(string $key, array $parameters = []): array
     {
-        $payload = Payload::retrieve('issue', $key, $parameters);
+        $payload = new Payload(
+            contentType: ContentType::JSON,
+            method: Method::GET,
+            uri: new ResourceUri("api/2/issue/$key"),
+            parameters: $parameters,
+        );
 
         /** @var array{expand: string, id: string, self: string, key: string, fields: array<string, mixed>} $result */
         $result = $this->transporter->request($payload);
@@ -93,7 +111,12 @@ final class Issues
      */
     public function edit(string $key, array $parameters = []): void
     {
-        $payload = Payload::edit('issue', $key, $parameters);
+        $payload = new Payload(
+            contentType: ContentType::JSON,
+            method: Method::PUT,
+            uri: new ResourceUri("api/2/issue/$key"),
+            parameters: $parameters,
+        );
 
         $this->transporter->request($payload);
     }
@@ -112,7 +135,12 @@ final class Issues
      */
     public function transition(string $key, array $parameters = []): void
     {
-        $payload = Payload::transition('issue', $key, $parameters);
+        $payload = new Payload(
+            contentType: ContentType::JSON,
+            method: Method::POST,
+            uri: new ResourceUri("api/2/issue/$key/transitions"),
+            parameters: $parameters,
+        );
 
         $this->transporter->request($payload);
     }

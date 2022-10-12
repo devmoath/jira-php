@@ -18,7 +18,7 @@ final class Jira
     {
         $basicAuthentication = BasicAuthentication::from($username, $password);
 
-        $baseUri = BaseUri::from("$host/rest/api/2");
+        $baseUri = BaseUri::from($host);
 
         $headers = Headers::withAuthorization($basicAuthentication);
 

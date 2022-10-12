@@ -41,11 +41,11 @@ final class HttpTransporter implements Transporter
             throw new TransporterException($clientException);
         }
 
-        $contents = $response->getBody()->getContents();
-
-        if ($contents === '') {
+        if ($response->getStatusCode() === 204) {
             return null;
         }
+
+        $contents = $response->getBody()->getContents();
 
         try {
             /** @var array{errorMessages?: array<string>, errors?: array<string, string>} $response */

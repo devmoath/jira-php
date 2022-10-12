@@ -22,9 +22,9 @@ final class BaseUri implements Stringable
     /**
      * Creates a new Base URI value object.
      */
-    public static function from(string $baseUri): self
+    public static function from(string $host): self
     {
-        return new self($baseUri);
+        return new self("https://$host/rest");
     }
 
     /**
@@ -32,6 +32,6 @@ final class BaseUri implements Stringable
      */
     public function __toString(): string
     {
-        return "https://$this->baseUri/";
+        return $this->baseUri;
     }
 }
