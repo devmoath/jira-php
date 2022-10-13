@@ -48,18 +48,22 @@ final class HttpTransporter implements Transporter
         $contents = $response->getBody()->getContents();
 
         try {
-            /** @var array{errorMessages?: array<string>, errors?: array<string, string>} $response */
+            /** @var array{errorMessage?: string, errorMessages?: array<string>, errors?: array<string, string>} $response */
             $response = json_decode(json: $contents, associative: true, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException);
         }
 
+        if (! empty($response['errorMessage'])) {
+            throw new ErrorException($response['errorMessage']);
+        }
+
         if (! empty($response['errorMessages'])) {
-            throw new ErrorException($response['errorMessages']);
+            throw new ErrorException($response['errorMessages'][0]);
         }
 
         if (! empty($response['errors'])) {
-            throw new ErrorException($response['errors']);
+            throw new ErrorException(reset($response['errors'])[0]);
         }
 
         return $response;

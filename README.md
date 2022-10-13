@@ -78,12 +78,14 @@ Perform a transition on a specific issue.
 $client->issues()->transition('KEY', ['transition' => ['id' => 1]]);
 ```
 
-#### `FUNCTION_NAME`
+### `ServiceDesk` Resource
 
-FUNCTION_DESCRIPTION.
+#### `crtearCustomr`
+
+Creates new customer for the provided parameters.
 
 ```php
-// CODE_SNIPPET
+$client->serviceDesk()->createCustomer(['email' => 'email', 'fullName' => 'name']); // [..., 'emailAddress' => 'email', ...]
 ```
 
 ---

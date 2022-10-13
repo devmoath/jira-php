@@ -6,6 +6,7 @@ namespace Jira;
 
 use Jira\Contracts\Transporter;
 use Jira\Resources\Issues;
+use Jira\Resources\ServiceDesk;
 
 final class Client
 {
@@ -24,5 +25,13 @@ final class Client
     public function issues(): Issues
     {
         return new Issues($this->transporter);
+    }
+
+    /**
+     * @see https://docs.atlassian.com/jira-servicedesk/REST/5.2.0
+     */
+    public function serviceDesk(): ServiceDesk
+    {
+        return new ServiceDesk($this->transporter);
     }
 }
