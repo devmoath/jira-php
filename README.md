@@ -88,6 +88,14 @@ Creates new customer for the provided parameters.
 $client->serviceDesk()->createCustomer(['email' => 'email', 'fullName' => 'name']); // [..., 'emailAddress' => 'email', ...]
 ```
 
+#### `createCustomerRequest`
+
+Creates new customer request in a service project.
+
+```php
+$client->serviceDesk()->createCustomerRequest(['serviceDeskId' => '1', /* ... */]); // [..., 'serviceDeskId' => '1', ...]
+```
+
 ---
 
 Jira PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.
