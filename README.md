@@ -43,7 +43,7 @@ echo $result['issues'][0]['key']; // KEY-1000
 Lists the currently available issues, and provides information about each one.
 
 ```php
-$client->issues()->list(); // [..., 'issues' => [...], ...]
+$client->issues()->list(parameters: []); // [..., 'issues' => [...], ...]
 ```
 
 #### `retrieve`
@@ -51,7 +51,7 @@ $client->issues()->list(); // [..., 'issues' => [...], ...]
 Returns information about a specific issue.
 
 ```php
-$client->issues()->retrieve(); // [..., 'fields' => [...], ...]
+$client->issues()->retrieve(key: 'KEY', parameters: []); // [..., 'fields' => [...], ...]
 ```
 
 #### `create`
@@ -59,7 +59,16 @@ $client->issues()->retrieve(); // [..., 'fields' => [...], ...]
 Creates new issue for the provided parameters.
 
 ```php
-$client->issues()->create(['fields' => ['project' => ['id' => '1', /* ... */]]]); // [..., 'key' => 'KEY-1000', ...]
+$client->issues()->create(
+    parameters: [
+        'fields' => [
+            'project' => [
+                'id' => '1', 
+            ],
+            /* ... */
+        ],
+    ]
+); // [..., 'key' => 'KEY-1000', ...]
 ```
 
 #### `edit`
@@ -67,7 +76,14 @@ $client->issues()->create(['fields' => ['project' => ['id' => '1', /* ... */]]])
 Edit information about a specific issue.
 
 ```php
-$client->issues()->edit('KEY', [ 'fields' => [ 'summary' => 'test' ] ]);
+$client->issues()->edit(
+    key: 'KEY', 
+    parameters: [
+        'fields' => [
+            'summary' => 'test',
+        ],
+    ]
+);
 ```
 
 #### `transition`
@@ -75,7 +91,27 @@ $client->issues()->edit('KEY', [ 'fields' => [ 'summary' => 'test' ] ]);
 Perform a transition on a specific issue.
 
 ```php
-$client->issues()->transition('KEY', ['transition' => ['id' => 1]]);
+$client->issues()->transition(
+    key: 'KEY',
+    parameters: [
+        'transition' => [
+            'id' => 1,
+        ],
+    ]
+);
+```
+
+#### `attach`
+
+Attach a file to a specific issue.
+
+```php
+$client->issues()->attach(
+    key: 'KEY',
+    parameters: [
+        'file' => fopen('FILE_PATH', 'r'),
+    ]
+); // [0 => ['id' => '1', ...], ...]
 ```
 
 ### `ServiceDesk` Resource
@@ -85,7 +121,12 @@ $client->issues()->transition('KEY', ['transition' => ['id' => 1]]);
 Creates new customer for the provided parameters.
 
 ```php
-$client->serviceDesk()->createCustomer(['email' => 'email', 'fullName' => 'name']); // [..., 'emailAddress' => 'email', ...]
+$client->serviceDesk()->createCustomer(
+    parameters: [
+        'email' => 'email',
+        'fullName' => 'name',
+    ]
+); // [..., 'emailAddress' => 'email', ...]
 ```
 
 #### `createCustomerRequest`
@@ -93,7 +134,12 @@ $client->serviceDesk()->createCustomer(['email' => 'email', 'fullName' => 'name'
 Creates new customer request in a service project.
 
 ```php
-$client->serviceDesk()->createCustomerRequest(['serviceDeskId' => '1', /* ... */]); // [..., 'serviceDeskId' => '1', ...]
+$client->serviceDesk()->createCustomerRequest(
+    parameters: [
+        'serviceDeskId' => '1',
+        /* ... */
+    ]
+); // [..., 'serviceDeskId' => '1', ...]
 ```
 
 ---

@@ -151,13 +151,14 @@ final class Issues
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue/{issueIdOrKey}/attachments-addAttachment
      *
      * @param  array<string, mixed>  $parameters
+     * @return  array<int, array{self: string, id: string, filename: string, author: array<string, mixed>, created: string, size: int, mimeType: string, content: string}>
      *
      * @throws \Jira\Exceptions\ErrorException
      * @throws \Jira\Exceptions\TransporterException
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function attach(string $key, array $parameters = []): void
+    public function attach(string $key, array $parameters = []): array
     {
         $payload = new Payload(
             contentType: ContentType::MULTIPART,
@@ -166,6 +167,9 @@ final class Issues
             parameters: $parameters,
         );
 
-        $this->transporter->request($payload);
+        /** @var array<int, array{self: string, id: string, filename: string, author: array<string, mixed>, created: string, size: int, mimeType: string, content: string}> $result */
+        $result = $this->transporter->request($payload);
+
+        return $result;
     }
 }
