@@ -1,45 +1,36 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Test Case
-|--------------------------------------------------------------------------
-|
-| The closure you provide to your test functions is always bound to a specific PHPUnit test
-| case class. By default, that class is "PHPUnit\Framework\TestCase". Of course, you may
-| need to change it using the "uses()" function to bind a different classes or traits.
-|
-*/
+use Jira\Client;
+use Jira\Contracts\Transporter;
+use Jira\ValueObjects\BasicAuthentication;
+use Jira\ValueObjects\Transporter\BaseUri;
+use Jira\ValueObjects\Transporter\Headers;
+use Jira\ValueObjects\Transporter\Payload;
 
-// uses(Tests\TestCase::class)->in('Feature');
+/**
+ * @param  array<int, mixed>  $params
+ * @param  array<int, mixed>|string  $response
+ */
+function mockClient(
+    string $method,
+    string $resource,
+    array $params,
+    array|string $response,
+): Client {
+    $transporter = Mockery::mock(Transporter::class);
 
-/*
-|--------------------------------------------------------------------------
-| Expectations
-|--------------------------------------------------------------------------
-|
-| When you're writing tests, you often need to check that values meet certain conditions. The
-| "expect()" function gives you access to a set of "expectations" methods that you can use
-| to assert different things. Of course, you may extend the Expectation API at any time.
-|
-*/
+    $transporter
+        ->shouldReceive('request')
+        ->once()
+        ->withArgs(function (Payload $payload) use ($method, $resource) {
+            $baseUri = BaseUri::from('jira.example.com');
+            $headers = Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'));
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
+            $request = $payload->toRequest($baseUri, $headers);
 
-/*
-|--------------------------------------------------------------------------
-| Functions
-|--------------------------------------------------------------------------
-|
-| While Pest is very powerful out-of-the-box, you may have some testing code specific to your
-| project that you don't want to repeat in every file. Here you can also expose helpers as
-| global functions to help you to reduce the number of lines of code in your test files.
-|
-*/
+            return $request->getMethod() === $method
+                && $request->getUri()->getPath() === "/rest/$resource";
+        })->andReturn($response);
 
-function something()
-{
-    // ..
+    return new Client($transporter);
 }
