@@ -5,7 +5,6 @@
 /composer.lock
 /phpunit.xml
 /vendor/
-*.swp
-*.swo
 /playground/
 /.idea/
+todo.md
