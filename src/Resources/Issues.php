@@ -144,4 +144,28 @@ final class Issues
 
         $this->transporter->request($payload);
     }
+
+    /**
+     * Attach a file to a specific issue.
+     *
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue/{issueIdOrKey}/attachments-addAttachment
+     *
+     * @param  array<string, mixed>  $parameters
+     *
+     * @throws \Jira\Exceptions\ErrorException
+     * @throws \Jira\Exceptions\TransporterException
+     * @throws \Jira\Exceptions\UnserializableResponse
+     * @throws \JsonException
+     */
+    public function attach(string $key, array $parameters = []): void
+    {
+        $payload = new Payload(
+            contentType: ContentType::MULTIPART,
+            method: Method::POST,
+            uri: new ResourceUri("api/2/issue/$key/attachments"),
+            parameters: $parameters,
+        );
+
+        $this->transporter->request($payload);
+    }
 }

@@ -30,6 +30,7 @@ final class Headers
         return new self([
             'Authorization' => 'Basic '.base64_encode((string) $basicAuthentication),
             'X-ExperimentalApi' => 'opt-in',
+            'X-Atlassian-Token' => 'no-check',
         ]);
     }
 
