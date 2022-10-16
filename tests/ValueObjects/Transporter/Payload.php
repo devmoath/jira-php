@@ -75,7 +75,16 @@ test('builds upload request', function () {
         method: Method::POST,
         uri: new ResourceUri('api/2/issues'),
         parameters: [
-            'file' => fileResource(),
+            [
+                'name' => 'file',
+                'contents' => 'hi',
+                'filename' => 'hi.txt',
+            ],
+            [
+                'name' => 'file',
+                'contents' => 'hi again',
+                'filename' => 'hi_again.txt',
+            ],
         ]
     );
 
@@ -87,6 +96,8 @@ test('builds upload request', function () {
     expect($request->getHeader('Content-Type')[0])
         ->toStartWith('multipart/form-data; boundary=')
         ->and($request->getBody()->getContents())
-        ->toContain('Content-Disposition: form-data; name="file"; filename="MyFile.json"')
-        ->toContain('{"name": "name"}');
+        ->toContain('Content-Disposition: form-data; name="file"; filename="hi.txt"')
+        ->toContain('Content-Disposition: form-data; name="file"; filename="hi_again.txt"')
+        ->toContain('hi')
+        ->toContain('hi again');
 });

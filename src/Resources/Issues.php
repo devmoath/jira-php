@@ -146,7 +146,7 @@ final class Issues
     }
 
     /**
-     * Attach a file to a specific issue.
+     * Attach a file or multiple files to a specific issue.
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue/{issueIdOrKey}/attachments-addAttachment
      *

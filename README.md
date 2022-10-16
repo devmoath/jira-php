@@ -109,7 +109,16 @@ Attach a file to a specific issue.
 $client->issues()->attach(
     key: 'KEY',
     parameters: [
-        'file' => fopen('FILE_PATH', 'r'),
+        [
+            'name' => 'file',        
+            'contents' => 'hi',        
+            'filename' => 'hi.txt',        
+        ],
+        [
+            'name' => 'file',        
+            'contents' => 'hi again',        
+            'filename' => 'hi_again.txt',        
+        ],
     ]
 ); // [0 => ['id' => '1', ...], ...]
 ```

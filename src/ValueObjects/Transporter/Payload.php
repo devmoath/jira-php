@@ -43,12 +43,7 @@ final class Payload
 
         if (in_array(needle: $this->method, haystack: [Method::POST, Method::PUT], strict: true)) {
             if ($this->contentType === ContentType::MULTIPART) {
-                $body = new MultipartStream(
-                    array_map(
-                        callback: fn ($key): array => ['name' => $key, 'contents' => $this->parameters[$key]],
-                        array: array_keys($this->parameters)
-                    )
-                );
+                $body = new MultipartStream($this->parameters);
 
                 $headers = $headers->withContentType($this->contentType, '; boundary='.$body->getBoundary());
             } else {
