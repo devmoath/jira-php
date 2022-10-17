@@ -20,13 +20,28 @@ final class Payload
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function __construct(
+    private function __construct(
         private readonly ContentType $contentType,
         private readonly Method $method,
         private readonly ResourceUri $uri,
         private readonly array $parameters = [],
     ) {
         // ..
+    }
+
+    /**
+     * Creates a new Request value object.
+     *
+     * @param  array<string, mixed>  $parameters
+     */
+    public static function create(ContentType $contentType, Method $method, ResourceUri $uri, array $parameters = []): self
+    {
+        return new self(
+            contentType: $contentType,
+            method: $method,
+            uri: $uri,
+            parameters: $parameters,
+        );
     }
 
     /**

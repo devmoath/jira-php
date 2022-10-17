@@ -9,10 +9,10 @@ use Jira\ValueObjects\Transporter\Headers;
 use Jira\ValueObjects\Transporter\Payload;
 
 it('has a method', function () {
-    $payload = new Payload(
+    $payload = Payload::create(
         contentType: ContentType::JSON,
         method: Method::POST,
-        uri: new ResourceUri('api/2/issues')
+        uri: ResourceUri::create('api/2/issues')
     );
 
     $baseUri = BaseUri::from('jira.example.com');
@@ -22,10 +22,10 @@ it('has a method', function () {
 });
 
 it('has a uri', function () {
-    $payload = new Payload(
+    $payload = Payload::create(
         contentType: ContentType::JSON,
         method: Method::GET,
-        uri: new ResourceUri('api/2/issues')
+        uri: ResourceUri::create('api/2/issues')
     );
 
     $baseUri = BaseUri::from('jira.example.com');
@@ -39,10 +39,10 @@ it('has a uri', function () {
 });
 
 test('get verb does not have a body', function () {
-    $payload = new Payload(
+    $payload = Payload::create(
         contentType: ContentType::JSON,
         method: Method::GET,
-        uri: new ResourceUri('api/2/issues')
+        uri: ResourceUri::create('api/2/issues')
     );
 
     $baseUri = BaseUri::from('jira.example.com');
@@ -52,10 +52,10 @@ test('get verb does not have a body', function () {
 });
 
 test('post verb has a body', function () {
-    $payload = new Payload(
+    $payload = Payload::create(
         contentType: ContentType::JSON,
         method: Method::POST,
-        uri: new ResourceUri('api/2/issues'),
+        uri: ResourceUri::create('api/2/issues'),
         parameters: [
             'name' => 'test',
         ]
@@ -70,10 +70,10 @@ test('post verb has a body', function () {
 });
 
 test('builds upload request', function () {
-    $payload = new Payload(
+    $payload = Payload::create(
         contentType: ContentType::MULTIPART,
         method: Method::POST,
-        uri: new ResourceUri('api/2/issues'),
+        uri: ResourceUri::create('api/2/issues'),
         parameters: [
             [
                 'name' => 'file',

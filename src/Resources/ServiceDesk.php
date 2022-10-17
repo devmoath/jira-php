@@ -28,10 +28,10 @@ final class ServiceDesk
      */
     public function createCustomer(array $parameters): array
     {
-        $payload = new Payload(
+        $payload = Payload::create(
             contentType: ContentType::JSON,
             method: Method::POST,
-            uri: new ResourceUri('servicedeskapi/customer'),
+            uri: ResourceUri::create('servicedeskapi/customer'),
             parameters: $parameters,
         );
 
@@ -56,10 +56,10 @@ final class ServiceDesk
      */
     public function createCustomerRequest(array $parameters): array
     {
-        $payload = new Payload(
+        $payload = Payload::create(
             contentType: ContentType::JSON,
             method: Method::POST,
-            uri: new ResourceUri('servicedeskapi/request'),
+            uri: ResourceUri::create('servicedeskapi/request'),
             parameters: $parameters,
         );
 

@@ -14,9 +14,14 @@ final class ResourceUri implements Stringable
     /**
      * Creates a new ResourceUri value object.
      */
-    public function __construct(private readonly string $uri)
+    private function __construct(private readonly string $uri)
     {
         // ..
+    }
+
+    public static function create(string $uri): self
+    {
+        return new self($uri);
     }
 
     /**

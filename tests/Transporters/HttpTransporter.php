@@ -29,10 +29,10 @@ beforeEach(function () {
 });
 
 test('request', function () {
-    $payload = new Payload(
+    $payload = Payload::create(
         contentType: ContentType::JSON,
         method: Method::GET,
-        uri: new ResourceUri('api/2/issues'),
+        uri: ResourceUri::create('api/2/issues'),
     );
 
     $response = new Response(200, [], json_encode([]));
@@ -54,10 +54,10 @@ test('request', function () {
 });
 
 test('request server errors', function () {
-    $payload = new Payload(
+    $payload = Payload::create(
         contentType: ContentType::JSON,
         method: Method::GET,
-        uri: new ResourceUri('api/2/issues'),
+        uri: ResourceUri::create('api/2/issues'),
     );
 
     $response = new Response(401, [], json_encode([
@@ -78,10 +78,10 @@ test('request server errors', function () {
 });
 
 test('request client errors', function () {
-    $payload = new Payload(
+    $payload = Payload::create(
         contentType: ContentType::JSON,
         method: Method::GET,
-        uri: new ResourceUri('api/2/issues'),
+        uri: ResourceUri::create('api/2/issues'),
     );
 
     $baseUri = BaseUri::from('api.openai.com');
@@ -100,10 +100,10 @@ test('request client errors', function () {
 });
 
 test('request serialization errors', function () {
-    $payload = new Payload(
+    $payload = Payload::create(
         contentType: ContentType::JSON,
         method: Method::GET,
-        uri: new ResourceUri('api/2/issues'),
+        uri: ResourceUri::create('api/2/issues'),
     );
 
     $response = new Response(200, [], 'err');

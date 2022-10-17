@@ -28,10 +28,10 @@ final class Issues
      */
     public function create(array $parameters): array
     {
-        $payload = new Payload(
+        $payload = Payload::create(
             contentType: ContentType::JSON,
             method: Method::POST,
-            uri: new ResourceUri('api/2/issue'),
+            uri: ResourceUri::create('api/2/issue'),
             parameters: $parameters,
         );
 
@@ -56,10 +56,10 @@ final class Issues
      */
     public function list(array $parameters = []): array
     {
-        $payload = new Payload(
+        $payload = Payload::create(
             contentType: ContentType::JSON,
             method: Method::GET,
-            uri: new ResourceUri('api/2/search'),
+            uri: ResourceUri::create('api/2/search'),
             parameters: $parameters,
         );
 
@@ -84,10 +84,10 @@ final class Issues
      */
     public function retrieve(string $key, array $parameters = []): array
     {
-        $payload = new Payload(
+        $payload = Payload::create(
             contentType: ContentType::JSON,
             method: Method::GET,
-            uri: new ResourceUri("api/2/issue/$key"),
+            uri: ResourceUri::create("api/2/issue/$key"),
             parameters: $parameters,
         );
 
@@ -111,10 +111,10 @@ final class Issues
      */
     public function edit(string $key, array $parameters = []): void
     {
-        $payload = new Payload(
+        $payload = Payload::create(
             contentType: ContentType::JSON,
             method: Method::PUT,
-            uri: new ResourceUri("api/2/issue/$key"),
+            uri: ResourceUri::create("api/2/issue/$key"),
             parameters: $parameters,
         );
 
@@ -135,10 +135,10 @@ final class Issues
      */
     public function transition(string $key, array $parameters = []): void
     {
-        $payload = new Payload(
+        $payload = Payload::create(
             contentType: ContentType::JSON,
             method: Method::POST,
-            uri: new ResourceUri("api/2/issue/$key/transitions"),
+            uri: ResourceUri::create("api/2/issue/$key/transitions"),
             parameters: $parameters,
         );
 
@@ -160,10 +160,10 @@ final class Issues
      */
     public function attach(string $key, array $parameters = []): array
     {
-        $payload = new Payload(
+        $payload = Payload::create(
             contentType: ContentType::MULTIPART,
             method: Method::POST,
-            uri: new ResourceUri("api/2/issue/$key/attachments"),
+            uri: ResourceUri::create("api/2/issue/$key/attachments"),
             parameters: $parameters,
         );
 
