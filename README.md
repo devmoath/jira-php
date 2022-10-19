@@ -151,6 +151,16 @@ $client->serviceDesk()->createCustomerRequest(
 ); // [..., 'serviceDeskId' => '1', ...]
 ```
 
+### `Attachments` Resource
+
+#### `retrieve`
+
+Retrieve the meta-data for an attachment.
+
+```php
+$client->attachments()->retrieve(id: '10000'); // [..., 'filename' => 'name.png', ...]
+```
+
 ---
 
 Jira PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.

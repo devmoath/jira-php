@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jira;
 
 use Jira\Contracts\Transporter;
+use Jira\Resources\Attachments;
 use Jira\Resources\Issues;
 use Jira\Resources\ServiceDesk;
 
@@ -33,5 +34,13 @@ final class Client
     public function serviceDesk(): ServiceDesk
     {
         return new ServiceDesk($this->transporter);
+    }
+
+    /**
+     * @see https://docs.atlassian.com/jira-servicedesk/REST/5.2.0
+     */
+    public function attachments(): Attachments
+    {
+        return new Attachments($this->transporter);
     }
 }
