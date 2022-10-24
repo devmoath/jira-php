@@ -38,4 +38,25 @@ final class Attachments
 
         return $result;
     }
+
+    /**
+     * Remove an attachment.
+     *
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/attachment-removeAttachment
+     *
+     * @throws \Jira\Exceptions\ErrorException
+     * @throws \Jira\Exceptions\TransporterException
+     * @throws \Jira\Exceptions\UnserializableResponse
+     * @throws \JsonException
+     */
+    public function remove(string $id): void
+    {
+        $payload = Payload::create(
+            contentType: ContentType::JSON,
+            method: Method::DELETE,
+            uri: ResourceUri::create("api/2/attachment/$id"),
+        );
+
+        $this->transporter->request(payload: $payload);
+    }
 }

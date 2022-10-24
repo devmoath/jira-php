@@ -161,6 +161,14 @@ Retrieve the meta-data for an attachment.
 $client->attachments()->retrieve(id: '10000'); // [..., 'filename' => 'name.png', ...]
 ```
 
+#### `remove`
+
+Remove an attachment.
+
+```php
+$client->attachments()->remove(id: '10000');
+```
+
 ---
 
 Jira PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.
