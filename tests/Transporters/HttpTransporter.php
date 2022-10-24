@@ -1,11 +1,16 @@
 <?php
 
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Response;
 use Jira\Enums\Transporter\ContentType;
 use Jira\Enums\Transporter\Method;
 use Jira\Exceptions\ErrorException;
+use Jira\Exceptions\TransporterException;
 use Jira\Exceptions\UnserializableResponse;
+use Jira\ValueObjects\BasicAuthentication;
 use Jira\ValueObjects\ResourceUri;
+use Jira\ValueObjects\Transporter\BaseUri;
+use Jira\ValueObjects\Transporter\Headers;
 use Jira\ValueObjects\Transporter\Payload;
 
 it('can send valid request and receive valid response', function () {
@@ -87,3 +92,27 @@ it('can send valid request and receive invalid response (syntax)', function () {
         )
     );
 })->throws(UnserializableResponse::class, 'Syntax error', 0);
+
+it('will fail because of a client errors', function () {
+    [$client, $http] = mockHttpTransporter();
+
+    $payload = Payload::create(
+        contentType: ContentType::JSON,
+        method: Method::GET,
+        uri: ResourceUri::create('api/2/issues'),
+    );
+
+    $client->shouldReceive('sendRequest')
+        ->once()
+        ->andThrow(
+            exception: new ConnectException(
+                message: 'Could not resolve host.',
+                request: $payload->toRequest(
+                    baseUri: BaseUri::from('jira.example.com'),
+                    headers: Headers::withAuthorization(BasicAuthentication::from('foo', 'bar')),
+                )
+            )
+        );
+
+    $http->request(payload: $payload);
+})->throws(TransporterException::class, 'Could not resolve host.', 0);
