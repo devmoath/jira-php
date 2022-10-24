@@ -16,16 +16,16 @@ final class Jira
      */
     public static function client(string $username, string $password, string $host): Client
     {
-        $basicAuthentication = BasicAuthentication::from($username, $password);
+        $basicAuthentication = BasicAuthentication::from(username: $username, password: $password);
 
-        $baseUri = BaseUri::from($host);
+        $baseUri = BaseUri::from(host: $host);
 
-        $headers = Headers::withAuthorization($basicAuthentication);
+        $headers = Headers::withAuthorization(basicAuthentication: $basicAuthentication);
 
         $client = new GuzzleClient();
 
-        $transporter = new HttpTransporter($client, $baseUri, $headers);
+        $transporter = new HttpTransporter(client: $client, baseUri: $baseUri, headers: $headers);
 
-        return new Client($transporter);
+        return new Client(transporter: $transporter);
     }
 }

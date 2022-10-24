@@ -24,7 +24,7 @@ final class BaseUri implements Stringable
      */
     public static function from(string $host): self
     {
-        return new self("https://$host/rest");
+        return new self(baseUri: "https://$host/rest");
     }
 
     /**

@@ -52,24 +52,26 @@ final class Payload
     public function toRequest(BaseUri $baseUri, Headers $headers): Psr7Request
     {
         $body = null;
-        $uri = "$baseUri/$this->uri";
-
-        $headers = $headers->withContentType($this->contentType);
+        $query = null;
 
         if (in_array(needle: $this->method, haystack: [Method::POST, Method::PUT], strict: true)) {
-            if ($this->contentType === ContentType::MULTIPART) {
-                $body = new MultipartStream($this->parameters);
-
-                $headers = $headers->withContentType($this->contentType, '; boundary='.$body->getBoundary());
-            } else {
-                $body = json_encode($this->parameters, JSON_THROW_ON_ERROR);
-            }
+            $body = $this->contentType === ContentType::MULTIPART
+                ? new MultipartStream(elements: $this->parameters)
+                : json_encode(value: $this->parameters, flags: JSON_THROW_ON_ERROR);
+        } else {
+            $query = '?'.http_build_query(data: $this->parameters);
         }
 
-        if ($this->method === Method::GET && ! empty($this->parameters)) {
-            $uri .= '?'.http_build_query($this->parameters);
-        }
+        $headers = $headers->withContentType(
+            contentType: $this->contentType,
+            suffix: $body instanceof MultipartStream ? "; boundary={$body->getBoundary()}" : ''
+        );
 
-        return new Psr7Request($this->method->value, $uri, $headers->toArray(), $body);
+        return new Psr7Request(
+            method: $this->method->value,
+            uri: "$baseUri/$this->uri$query",
+            headers: $headers->toArray(),
+            body: $body,
+        );
     }
 }

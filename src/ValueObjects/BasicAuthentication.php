@@ -15,11 +15,11 @@ final class BasicAuthentication implements Stringable
 
     public static function from(string $username, string $password): self
     {
-        return new self($username, $password);
+        return new self(username: $username, password: $password);
     }
 
     public function __toString(): string
     {
-        return "$this->username:$this->password";
+        return 'Basic '.base64_encode(string: "$this->username:$this->password");
     }
 }

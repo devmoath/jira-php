@@ -36,7 +36,7 @@ final class Issues
         );
 
         /** @var array{id: string, key: string, self: string} $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->request(payload: $payload);
 
         return $result;
     }
@@ -64,7 +64,7 @@ final class Issues
         );
 
         /** @var array{expand: string, startAt: int, maxResults: int, total: int, issues: array<int, array<string, mixed>>} $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->request(payload: $payload);
 
         return $result;
     }
@@ -92,7 +92,7 @@ final class Issues
         );
 
         /** @var array{expand: string, id: string, self: string, key: string, fields: array<string, mixed>} $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->request(payload: $payload);
 
         return $result;
     }
@@ -118,7 +118,7 @@ final class Issues
             parameters: $parameters,
         );
 
-        $this->transporter->request($payload);
+        $this->transporter->request(payload: $payload);
     }
 
     /**
@@ -142,7 +142,7 @@ final class Issues
             parameters: $parameters,
         );
 
-        $this->transporter->request($payload);
+        $this->transporter->request(payload: $payload);
     }
 
     /**
@@ -168,7 +168,7 @@ final class Issues
         );
 
         /** @var array<int, array{self: string, id: string, filename: string, author: array<string, mixed>, created: string, size: int, mimeType: string, content: string}> $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->request(payload: $payload);
 
         return $result;
     }

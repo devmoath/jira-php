@@ -36,7 +36,7 @@ final class ServiceDesk
         );
 
         /** @var array{name: string, key: string, emailAddress: string, displayName: string, active: bool, timeZone: string, _links: array{jiraRest: string, avatarUrls: array<string, string>, self: string}} $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->request(payload: $payload);
 
         return $result;
     }
@@ -64,7 +64,7 @@ final class ServiceDesk
         );
 
         /** @var array{_expands: array<string>, issueId: string, issueKey: string, requestTypeId: string, serviceDeskId: string, createdDate: array<string, mixed>, reporter: array<string, mixed>, requestFieldValues: array<int, array{fieldId: string, label: string, value: string}>, currentStatus: array{status: string, statusDate: array<string, mixed>}, _links: array<string, string>} $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->request(payload: $payload);
 
         return $result;
     }

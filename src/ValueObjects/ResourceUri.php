@@ -21,7 +21,7 @@ final class ResourceUri implements Stringable
 
     public static function create(string $uri): self
     {
-        return new self($uri);
+        return new self(uri: $uri);
     }
 
     /**

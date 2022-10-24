@@ -23,12 +23,12 @@ final class Headers
     }
 
     /**
-     * Creates a new Headers value object with the given API token.
+     * Creates a new Headers value object with the given basic authentication.
      */
     public static function withAuthorization(BasicAuthentication $basicAuthentication): self
     {
-        return new self([
-            'Authorization' => 'Basic '.base64_encode((string) $basicAuthentication),
+        return new self(headers: [
+            'Authorization' => (string) $basicAuthentication,
             'X-ExperimentalApi' => 'opt-in',
             'X-Atlassian-Token' => 'no-check',
         ]);
@@ -39,7 +39,7 @@ final class Headers
      */
     public function withContentType(ContentType $contentType, string $suffix = ''): self
     {
-        return new self([
+        return new self(headers: [
             ...$this->headers,
             'Content-Type' => $contentType->value.$suffix,
         ]);

@@ -25,7 +25,7 @@ final class Client
      */
     public function issues(): Issues
     {
-        return new Issues($this->transporter);
+        return new Issues(transporter: $this->transporter);
     }
 
     /**
@@ -33,7 +33,7 @@ final class Client
      */
     public function serviceDesk(): ServiceDesk
     {
-        return new ServiceDesk($this->transporter);
+        return new ServiceDesk(transporter: $this->transporter);
     }
 
     /**
@@ -41,6 +41,6 @@ final class Client
      */
     public function attachments(): Attachments
     {
-        return new Attachments($this->transporter);
+        return new Attachments(transporter: $this->transporter);
     }
 }

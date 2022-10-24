@@ -34,7 +34,7 @@ final class Attachments
         );
 
         /** @var array{self: string, filename: string, author: array<string, mixed>, created: string, size: int, mimeType: string, content: string, thumbnail: string} $result */
-        $result = $this->transporter->request($payload);
+        $result = $this->transporter->request(payload: $payload);
 
         return $result;
     }

@@ -33,15 +33,15 @@ final class HttpTransporter implements Transporter
      */
     public function request(Payload $payload): ?array
     {
-        $request = $payload->toRequest($this->baseUri, $this->headers);
+        $request = $payload->toRequest(baseUri: $this->baseUri, headers: $this->headers);
 
         try {
-            $response = $this->client->sendRequest($request);
+            $response = $this->client->sendRequest(request: $request);
         } catch (ClientExceptionInterface $clientException) {
-            throw new TransporterException($clientException);
+            throw new TransporterException(exception: $clientException);
         }
 
-        if ($response->getStatusCode() === 204) {
+        if ($response->getStatusCode() === 204 && empty($response->getBody()->getContents())) {
             return null;
         }
 
@@ -51,19 +51,19 @@ final class HttpTransporter implements Transporter
             /** @var array{errorMessage?: string, errorMessages?: array<string>, errors?: array<string, string>} $response */
             $response = json_decode(json: $contents, associative: true, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
-            throw new UnserializableResponse($jsonException);
+            throw new UnserializableResponse(exception: $jsonException);
         }
 
         if (! empty($response['errorMessage'])) {
-            throw new ErrorException($response['errorMessage']);
+            throw new ErrorException(message: $response['errorMessage']);
         }
 
         if (! empty($response['errorMessages'])) {
-            throw new ErrorException($response['errorMessages'][0]);
+            throw new ErrorException(message: $response['errorMessages'][0]);
         }
 
         if (! empty($response['errors'])) {
-            throw new ErrorException(reset($response['errors'])[0]);
+            throw new ErrorException(message: reset($response['errors'])[0]);
         }
 
         return $response;
