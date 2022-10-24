@@ -8,7 +8,7 @@ it('can be created from a Basic Authentication', function () {
     $headers = Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'));
 
     expect($headers->toArray())->toBe([
-        'Authorization' => 'Basic '.base64_encode('foo:bar'),
+        'Authorization' => 'Basic Zm9vOmJhcg==',
         'X-ExperimentalApi' => 'opt-in',
         'X-Atlassian-Token' => 'no-check',
     ]);
@@ -19,7 +19,7 @@ it('can have content/type', function () {
         ->withContentType(ContentType::JSON);
 
     expect($headers->toArray())->toBe([
-        'Authorization' => 'Basic '.base64_encode('foo:bar'),
+        'Authorization' => 'Basic Zm9vOmJhcg==',
         'X-ExperimentalApi' => 'opt-in',
         'X-Atlassian-Token' => 'no-check',
         'Content-Type' => 'application/json',

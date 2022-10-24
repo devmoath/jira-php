@@ -1,36 +1,25 @@
 <?php
 
-use Jira\Client;
-use Jira\Contracts\Transporter;
+use Jira\Transporters\HttpTransporter;
 use Jira\ValueObjects\BasicAuthentication;
 use Jira\ValueObjects\Transporter\BaseUri;
 use Jira\ValueObjects\Transporter\Headers;
-use Jira\ValueObjects\Transporter\Payload;
+use Mockery\MockInterface;
+use Psr\Http\Client\ClientInterface;
 
 /**
- * @param  array<int, mixed>  $params
- * @param  array<int, mixed>|string  $response
+ * @return array{0: MockInterface, 1: HttpTransporter}
  */
-function mockClient(
-    string $method,
-    string $resource,
-    array $params,
-    array|string $response,
-): Client {
-    $transporter = Mockery::mock(Transporter::class);
+function mockHttpTransporter(): array
+{
+    $client = Mockery::mock(ClientInterface::class);
 
-    $transporter
-        ->shouldReceive('request')
-        ->once()
-        ->withArgs(function (Payload $payload) use ($method, $resource) {
-            $baseUri = BaseUri::from('jira.example.com');
-            $headers = Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'));
-
-            $request = $payload->toRequest($baseUri, $headers);
-
-            return $request->getMethod() === $method
-                && $request->getUri()->getPath() === "/rest/$resource";
-        })->andReturn($response);
-
-    return new Client($transporter);
+    return [
+        $client,
+        new HttpTransporter(
+            $client,
+            BaseUri::from('jira.example.com'),
+            Headers::withAuthorization(BasicAuthentication::from('foo', 'bar')),
+        ),
+    ];
 }

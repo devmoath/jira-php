@@ -1,117 +1,89 @@
 <?php
 
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response;
 use Jira\Enums\Transporter\ContentType;
 use Jira\Enums\Transporter\Method;
 use Jira\Exceptions\ErrorException;
-use Jira\Exceptions\TransporterException;
 use Jira\Exceptions\UnserializableResponse;
-use Jira\Transporters\HttpTransporter;
-use Jira\ValueObjects\BasicAuthentication;
 use Jira\ValueObjects\ResourceUri;
-use Jira\ValueObjects\Transporter\BaseUri;
-use Jira\ValueObjects\Transporter\Headers;
 use Jira\ValueObjects\Transporter\Payload;
-use Psr\Http\Client\ClientInterface;
 
-beforeEach(function () {
-    $this->client = Mockery::mock(ClientInterface::class);
+it('can send valid request and receive valid response', function () {
+    [$client, $http] = mockHttpTransporter();
 
-    $basicAuthentication = BasicAuthentication::from('foo', 'bar');
+    $client->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn(new Response(body: json_encode([])));
 
-    $this->http = new HttpTransporter(
-        $this->client,
-        BaseUri::from('jira.example.com'),
-        Headers::withAuthorization($basicAuthentication)->withContentType(ContentType::JSON),
+    $http->request(
+        payload: Payload::create(
+            contentType: ContentType::JSON,
+            method: Method::GET,
+            uri: ResourceUri::create('api/2/issues'),
+        )
     );
 });
 
-test('request', function () {
-    $payload = Payload::create(
-        contentType: ContentType::JSON,
-        method: Method::GET,
-        uri: ResourceUri::create('api/2/issues'),
-    );
+it('can send valid request and receive invalid response (errorMessage)', function () {
+    [$client, $http] = mockHttpTransporter();
 
-    $response = new Response(200, [], json_encode([]));
-
-    $this->client
-        ->shouldReceive('sendRequest')
+    $client->shouldReceive('sendRequest')
         ->once()
-        ->withArgs(function (Psr7Request $request) {
-            expect($request->getMethod())->toBe('GET')
-                ->and($request->getUri())
-                ->getHost()->toBe('jira.example.com')
-                ->getScheme()->toBe('https')
-                ->getPath()->toBe('/rest/api/2/issues');
+        ->andReturn(new Response(status: 400, body: json_encode(errorMessage())));
 
-            return true;
-        })->andReturn($response);
-
-    $this->http->request($payload);
-});
-
-test('request server errors', function () {
-    $payload = Payload::create(
-        contentType: ContentType::JSON,
-        method: Method::GET,
-        uri: ResourceUri::create('api/2/issues'),
+    $http->request(
+        payload: Payload::create(
+            contentType: ContentType::JSON,
+            method: Method::GET,
+            uri: ResourceUri::create('api/2/issues'),
+        )
     );
+})->throws(ErrorException::class, errorMessage()['errorMessage'], 0);
 
-    $response = new Response(401, [], json_encode([
-        'errorMessages' => [
-            'dummy',
-        ],
-    ]));
+it('can send valid request and receive invalid response (errorMessages)', function () {
+    [$client, $http] = mockHttpTransporter();
 
-    $this->client
-        ->shouldReceive('sendRequest')
+    $client->shouldReceive('sendRequest')
         ->once()
-        ->andReturn($response);
+        ->andReturn(new Response(status: 400, body: json_encode(errorMessages())));
 
-    expect(fn () => $this->http->request($payload))
-        ->toThrow(function (ErrorException $e) {
-            expect($e->getMessage())->toBe('dummy');
-        });
-});
-
-test('request client errors', function () {
-    $payload = Payload::create(
-        contentType: ContentType::JSON,
-        method: Method::GET,
-        uri: ResourceUri::create('api/2/issues'),
+    $http->request(
+        payload: Payload::create(
+            contentType: ContentType::JSON,
+            method: Method::GET,
+            uri: ResourceUri::create('api/2/issues'),
+        )
     );
+})->throws(ErrorException::class, errorMessages()['errorMessages'][0], 0);
 
-    $baseUri = BaseUri::from('api.openai.com');
-    $headers = Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'));
+it('can send valid request and receive invalid response (errors)', function () {
+    [$client, $http] = mockHttpTransporter();
 
-    $this->client
-        ->shouldReceive('sendRequest')
+    $client->shouldReceive('sendRequest')
         ->once()
-        ->andThrow(new ConnectException('Could not resolve host.', $payload->toRequest($baseUri, $headers)));
+        ->andReturn(new Response(status: 400, body: json_encode(errors())));
 
-    expect(fn () => $this->http->request($payload))->toThrow(function (TransporterException $e) {
-        expect($e->getMessage())->toBe('Could not resolve host.')
-            ->and($e->getCode())->toBe(0)
-            ->and($e->getPrevious())->toBeInstanceOf(ConnectException::class);
-    });
-});
-
-test('request serialization errors', function () {
-    $payload = Payload::create(
-        contentType: ContentType::JSON,
-        method: Method::GET,
-        uri: ResourceUri::create('api/2/issues'),
+    $http->request(
+        payload: Payload::create(
+            contentType: ContentType::JSON,
+            method: Method::GET,
+            uri: ResourceUri::create('api/2/issues'),
+        )
     );
+})->throws(ErrorException::class, errors()['errors']['customfield_18208'], 0);
 
-    $response = new Response(200, [], 'err');
+it('can send valid request and receive invalid response (syntax)', function () {
+    [$client, $http] = mockHttpTransporter();
 
-    $this->client
-        ->shouldReceive('sendRequest')
+    $client->shouldReceive('sendRequest')
         ->once()
-        ->andReturn($response);
+        ->andReturn(new Response(status: 400, body: 'error'));
 
-    $this->http->request($payload);
-})->throws(UnserializableResponse::class, 'Syntax error');
+    $http->request(
+        payload: Payload::create(
+            contentType: ContentType::JSON,
+            method: Method::GET,
+            uri: ResourceUri::create('api/2/issues'),
+        )
+    );
+})->throws(UnserializableResponse::class, 'Syntax error', 0);

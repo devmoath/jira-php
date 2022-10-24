@@ -69,7 +69,7 @@ final class Payload
 
         return new Psr7Request(
             method: $this->method->value,
-            uri: "$baseUri/$this->uri$query",
+            uri: $baseUri.$this->uri.$query,
             headers: $headers->toArray(),
             body: $body,
         );

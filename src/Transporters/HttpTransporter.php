@@ -63,7 +63,7 @@ final class HttpTransporter implements Transporter
         }
 
         if (! empty($response['errors'])) {
-            throw new ErrorException(message: reset($response['errors'])[0]);
+            throw new ErrorException(message: reset($response['errors']));
         }
 
         return $response;

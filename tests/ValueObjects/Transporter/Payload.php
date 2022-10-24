@@ -8,68 +8,51 @@ use Jira\ValueObjects\Transporter\BaseUri;
 use Jira\ValueObjects\Transporter\Headers;
 use Jira\ValueObjects\Transporter\Payload;
 
-it('has a method', function () {
-    $payload = Payload::create(
-        contentType: ContentType::JSON,
-        method: Method::POST,
-        uri: ResourceUri::create('api/2/issues')
-    );
-
-    $baseUri = BaseUri::from('jira.example.com');
-    $headers = Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'))->withContentType(ContentType::JSON);
-
-    expect($payload->toRequest($baseUri, $headers)->getMethod())->toBe('POST');
-});
-
-it('has a uri', function () {
+it('can create valid GET payload', function () {
     $payload = Payload::create(
         contentType: ContentType::JSON,
         method: Method::GET,
-        uri: ResourceUri::create('api/2/issues')
+        uri: ResourceUri::create('api/2/issues'),
+        parameters: ['expand' => 'history']
     );
 
-    $baseUri = BaseUri::from('jira.example.com');
-    $headers = Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'))->withContentType(ContentType::JSON);
-
-    $uri = $payload->toRequest($baseUri, $headers)->getUri();
-
-    expect($uri->getHost())->toBe('jira.example.com')
-        ->and($uri->getScheme())->toBe('https')
-        ->and($uri->getPath())->toBe('/rest/api/2/issues');
-});
-
-test('get verb does not have a body', function () {
-    $payload = Payload::create(
-        contentType: ContentType::JSON,
-        method: Method::GET,
-        uri: ResourceUri::create('api/2/issues')
+    $request = $payload->toRequest(
+        baseUri: BaseUri::from('jira.example.com'),
+        headers: Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'))
     );
 
-    $baseUri = BaseUri::from('jira.example.com');
-    $headers = Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'))->withContentType(ContentType::JSON);
-
-    expect($payload->toRequest($baseUri, $headers)->getBody()->getContents())->toBe('');
+    expect($request->getUri()->getScheme())->toBe('https')
+        ->and($request->getUri()->getHost())->toBe('jira.example.com')
+        ->and($request->getUri()->getPath())->toBe('/rest/api/2/issues')
+        ->and($request->getUri()->getQuery())->toBe('expand=history')
+        ->and($request->getBody()->getContents())->toBeEmpty()
+        ->and($request->getHeader('Content-Type')[0])->toBe(ContentType::JSON->value);
 });
 
-test('post verb has a body', function () {
+it('can create valid POST payload with JSON as content/type', function () {
     $payload = Payload::create(
         contentType: ContentType::JSON,
         method: Method::POST,
         uri: ResourceUri::create('api/2/issues'),
-        parameters: [
-            'name' => 'test',
-        ]
+        parameters: ['project' => ['id' => 1]]
     );
 
-    $baseUri = BaseUri::from('jira.example.com');
-    $headers = Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'))->withContentType(ContentType::JSON);
+    $request = $payload->toRequest(
+        baseUri: BaseUri::from('jira.example.com'),
+        headers: Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'))
+    );
 
-    expect($payload->toRequest($baseUri, $headers)->getBody()->getContents())->toBe(json_encode([
-        'name' => 'test',
-    ]));
+    expect($request->getUri()->getScheme())->toBe('https')
+        ->and($request->getUri()->getHost())->toBe('jira.example.com')
+        ->and($request->getUri()->getPath())->toBe('/rest/api/2/issues')
+        ->and($request->getUri()->getQuery())->toBeEmpty()
+        ->and($request->getBody()->getContents())->toBe(json_encode([
+            'project' => ['id' => 1],
+        ]))
+        ->and($request->getHeader('Content-Type')[0])->toBe(ContentType::JSON->value);
 });
 
-test('builds upload request', function () {
+it('can create valid POST payload with MULTIPART as content/type', function () {
     $payload = Payload::create(
         contentType: ContentType::MULTIPART,
         method: Method::POST,
@@ -88,16 +71,18 @@ test('builds upload request', function () {
         ]
     );
 
-    $baseUri = BaseUri::from('jira.example.com');
-    $headers = Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'));
+    $request = $payload->toRequest(
+        baseUri: BaseUri::from('jira.example.com'),
+        headers: Headers::withAuthorization(BasicAuthentication::from('foo', 'bar'))
+    );
 
-    $request = $payload->toRequest($baseUri, $headers);
-
-    expect($request->getHeader('Content-Type')[0])
-        ->toStartWith('multipart/form-data; boundary=')
-        ->and($request->getBody()->getContents())
-        ->toContain('Content-Disposition: form-data; name="file"; filename="hi.txt"')
-        ->toContain('Content-Disposition: form-data; name="file"; filename="hi_again.txt"')
-        ->toContain('hi')
-        ->toContain('hi again');
+    expect($request->getUri()->getScheme())->toBe('https')
+        ->and($request->getUri()->getHost())->toBe('jira.example.com')
+        ->and($request->getUri()->getPath())->toBe('/rest/api/2/issues')
+        ->and($request->getUri()->getQuery())->toBeEmpty()
+        ->and($request->getBody()->getContents())->toContain(
+            'Content-Disposition: form-data; name="file"; filename="hi.txt"',
+            'Content-Disposition: form-data; name="file"; filename="hi_again.txt"',
+        )
+        ->and($request->getHeader('Content-Type')[0])->toStartWith(ContentType::MULTIPART->value);
 });
