@@ -41,7 +41,7 @@ final class HttpTransporter implements Transporter
             throw new TransporterException(exception: $clientException);
         }
 
-        if ($response->getStatusCode() === 204 && empty($response->getBody()->getContents())) {
+        if ($response->getStatusCode() === 204 && trim($response->getBody()->getContents()) === '') {
             return null;
         }
 
@@ -54,15 +54,15 @@ final class HttpTransporter implements Transporter
             throw new UnserializableResponse(exception: $jsonException);
         }
 
-        if (! empty($response['errorMessage'])) {
+        if (isset($response['errorMessage']) && $response['errorMessage'] !== '') {
             throw new ErrorException(message: $response['errorMessage']);
         }
 
-        if (! empty($response['errorMessages'])) {
+        if (isset($response['errorMessages']) && $response['errorMessages'] !== []) {
             throw new ErrorException(message: $response['errorMessages'][0]);
         }
 
-        if (! empty($response['errors'])) {
+        if (isset($response['errors']) && $response['errors'] !== []) {
             throw new ErrorException(message: reset($response['errors']));
         }
 

@@ -29,6 +29,22 @@ it('can send valid request and receive valid response', function () {
     );
 });
 
+it('can send valid request and receive no-content response', function () {
+    [$client, $http] = mockHttpTransporter();
+
+    $client->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn(new Response(status: 204));
+
+    $http->request(
+        payload: Payload::create(
+            contentType: ContentType::JSON,
+            method: Method::GET,
+            uri: ResourceUri::create('api/2/issues'),
+        )
+    );
+});
+
 it('can send valid request and receive invalid response (errorMessage)', function () {
     [$client, $http] = mockHttpTransporter();
 
