@@ -3,37 +3,29 @@ name: Formats
 on: [ 'push', 'pull_request' ]
 
 jobs:
-    ci:
+    formats:
         runs-on: ${{ matrix.os }}
-
         strategy:
             fail-fast: true
             matrix:
                 os: [ ubuntu-latest ]
                 php: [ 8.1 ]
-                dependency-version: [ prefer-lowest, prefer-stable ]
+                stability: [ prefer-lowest, prefer-stable ]
 
-        name: Formats P${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
+        name: Formats php@${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.stability }}
 
         steps:
-
             -   name: Checkout
                 uses: actions/checkout@v3
-
-            -   name: Cache dependencies
-                uses: actions/cache@v1
-                with:
-                    path: ~/.composer/cache/files
-                    key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ matrix.php }}
-                    coverage: pcov
+                    coverage: none
 
             -   name: Install Composer dependencies
-                run: composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist
+                run: composer update --${{ matrix.stability }} --no-interaction
 
             -   name: Coding Style Checks
                 run: composer test:lint
