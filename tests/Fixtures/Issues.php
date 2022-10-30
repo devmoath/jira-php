@@ -138,6 +138,36 @@ function listIssues(): array
 }
 
 /**
+ * @return array<string, mixed>
+ */
+function commentIssue(): array
+{
+    return [
+        'self' => 'https://www.example.com/jira/rest/api/2/issue/10010/comment/10000',
+        'id' => '10000',
+        'author' => [
+            'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+            'name' => 'fred',
+            'displayName' => 'Fred F. User',
+            'active' => false,
+        ],
+        'body' => 'Lorem ipsum dolor sit amet',
+        'updateAuthor' => [
+            'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+            'name' => 'fred',
+            'displayName' => 'Fred F. User',
+            'active' => false,
+        ],
+        'created' => '2019-02-09T10:08:20.180+0000',
+        'updated' => '2019-02-09T10:08:20.181+0000',
+        'visibility' => [
+            'type' => 'role',
+            'value' => 'Administrators',
+        ],
+    ];
+}
+
+/**
  * @return array<int, array<string, mixed>>
  */
 function attachFiles(): array

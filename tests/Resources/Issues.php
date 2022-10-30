@@ -44,6 +44,20 @@ it('can retrieve an issue', function () {
     expect($result)->toBe(retrieveIssue());
 });
 
+it('can comment to an issue', function () {
+    $client = mockClient(
+        method: Method::POST,
+        uri: ResourceUri::create('api/2/issue/KEY-1000/comment'),
+        response: commentIssue()
+    );
+
+    $result = $client->issues()->comment(key: 'KEY-1000', parameters: [
+        'body' => 'Kind reminder!',
+    ]);
+
+    expect($result)->toBe(commentIssue());
+});
+
 it('can edit an issue', function () {
     $client = mockClient(
         method: Method::PUT,

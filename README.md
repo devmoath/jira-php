@@ -123,6 +123,19 @@ $client->issues()->attach(
 ); // [0 => ['id' => '1', ...], ...]
 ```
 
+#### `comment`
+
+Create a new comment to an issue.
+
+```php
+$client->issues()->comment(
+    key: 'KEY',
+    parameters: [
+        'body' => 'Kind reminder!',
+    ]
+); // ['id' => '10000', ...]
+```
+
 ### `ServiceDesk` Resource
 
 #### `crtearCustomr`

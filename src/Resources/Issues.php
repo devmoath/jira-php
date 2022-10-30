@@ -172,4 +172,32 @@ final class Issues
 
         return $result;
     }
+
+    /**
+     * Create a new comment to an issue.
+     *
+     * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue-addComment
+     *
+     * @param  array<string, mixed>  $parameters
+     * @return array{self: string, id: string, author: array<string, mixed>, body: string, updateAuthor: array<string, mixed>, created: string, updated: string, visibility: array<string, mixed>}
+     *
+     * @throws \Jira\Exceptions\ErrorException
+     * @throws \Jira\Exceptions\TransporterException
+     * @throws \Jira\Exceptions\UnserializableResponse
+     * @throws \JsonException
+     */
+    public function comment(string $key, array $parameters): array
+    {
+        $payload = Payload::create(
+            contentType: ContentType::JSON,
+            method: Method::POST,
+            uri: ResourceUri::create("api/2/issue/$key/comment"),
+            parameters: $parameters,
+        );
+
+        /** @var array{self: string, id: string, author: array<string, mixed>, body: string, updateAuthor: array<string, mixed>, created: string, updated: string, visibility: array<string, mixed>} $result */
+        $result = $this->transporter->request(payload: $payload);
+
+        return $result;
+    }
 }
