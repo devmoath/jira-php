@@ -3,33 +3,12 @@
 use Jira\Client;
 use Jira\Contracts\Transporter;
 use Jira\Enums\Transporter\Method;
-use Jira\Transporters\HttpTransporter;
 use Jira\ValueObjects\BasicAuthentication;
-use Jira\ValueObjects\ResourceUri;
 use Jira\ValueObjects\Transporter\BaseUri;
 use Jira\ValueObjects\Transporter\Headers;
 use Jira\ValueObjects\Transporter\Payload;
-use Mockery\MockInterface;
-use Psr\Http\Client\ClientInterface;
 
-/**
- * @return array{0: MockInterface&ClientInterface, 1: HttpTransporter}
- */
-function mockHttpTransporter(): array
-{
-    $client = Mockery::mock(ClientInterface::class);
-
-    return [
-        $client,
-        new HttpTransporter(
-            client: $client,
-            baseUri: BaseUri::from('jira.domain.com'),
-            headers: Headers::withAuthorization(BasicAuthentication::from('foo', 'bar')),
-        ),
-    ];
-}
-
-function mockClient(Method $method, ResourceUri $uri, ?array $response): Client
+function mockClient(Method $method, string $uri, array $response = null): Client
 {
     $transporter = Mockery::mock(Transporter::class);
 

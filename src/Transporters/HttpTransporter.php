@@ -15,11 +15,11 @@ use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 
+/**
+ * @internal
+ */
 final class HttpTransporter implements Transporter
 {
-    /**
-     * Creates a new Http Transporter instance.
-     */
     public function __construct(
         private readonly ClientInterface $client,
         private readonly BaseUri $baseUri,
@@ -28,9 +28,6 @@ final class HttpTransporter implements Transporter
         // ..
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function request(Payload $payload): ?array
     {
         $request = $payload->toRequest(baseUri: $this->baseUri, headers: $this->headers);
@@ -41,20 +38,21 @@ final class HttpTransporter implements Transporter
             throw new TransporterException(exception: $clientException);
         }
 
-        if ($response->getStatusCode() === 204 && trim($response->getBody()->getContents()) === '') {
+        $contents = $response->getBody()->getContents();
+
+        if (trim($contents) === '') {
             return null;
         }
 
-        $contents = $response->getBody()->getContents();
-
         try {
-            /** @var array{errorMessage?: string, errorMessages?: array<string>, errors?: array<string, string>} $response */
+            /** @var non-empty-array<array-key, mixed> $response */
             $response = json_decode(json: $contents, associative: true, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse(exception: $jsonException);
         }
 
         if (isset($response['errorMessage']) && $response['errorMessage'] !== '') {
+            // @phpstan-ignore-next-line
             throw new ErrorException(message: $response['errorMessage']);
         }
 

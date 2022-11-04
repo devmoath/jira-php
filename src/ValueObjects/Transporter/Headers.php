@@ -15,16 +15,13 @@ final class Headers
     /**
      * Creates a new Headers value object.
      *
-     * @param  array<string, string>  $headers
+     * @param  non-empty-array<string, string>  $headers
      */
     private function __construct(private readonly array $headers)
     {
         // ..
     }
 
-    /**
-     * Creates a new Headers value object with the given basic authentication.
-     */
     public static function withAuthorization(BasicAuthentication $basicAuthentication): self
     {
         return new self(headers: [
@@ -34,9 +31,6 @@ final class Headers
         ]);
     }
 
-    /**
-     * Creates a new Headers value object, with the given content type, and the existing headers.
-     */
     public function withContentType(ContentType $contentType, string $suffix = ''): self
     {
         return new self(headers: [
@@ -46,7 +40,7 @@ final class Headers
     }
 
     /**
-     * @return array<string, string> $headers
+     * @return non-empty-array<string, string>
      */
     public function toArray(): array
     {

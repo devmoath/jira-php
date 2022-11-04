@@ -6,6 +6,9 @@ namespace Jira\Exceptions;
 
 use Exception;
 
+/**
+ * @internal
+ */
 final class ErrorException extends Exception
 {
     //

@@ -29,7 +29,6 @@
         "phpstan/phpstan": "^1.8.6",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-strict-rules": "^1.4",
-        "rector/rector": "^0.14.4",
         "symfony/var-dumper": "^6.2.0"
     },
     "autoload": {
@@ -57,14 +56,11 @@
     },
     "scripts": {
         "lint": "pint -v --ansi",
-        "refactor": "rector --debug --ansi",
         "test:lint": "pint --test -v --ansi",
-        "test:refactor": "rector --dry-run --ansi",
         "test:types": "phpstan analyse --ansi",
         "test:unit": "pest --colors=always --min=100 --order-by=random --coverage",
         "test": [
             "@test:lint",
-            "@test:refactor",
             "@test:types",
             "@test:unit"
         ]

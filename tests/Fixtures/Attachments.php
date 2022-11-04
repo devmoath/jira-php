@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @return array<string, mixed>
- */
 function retrieveAttachment(): array
 {
     return [

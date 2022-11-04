@@ -11,9 +11,6 @@ use Jira\ValueObjects\Transporter\Headers;
 
 final class Jira
 {
-    /**
-     * Creates a new Jira Client with the given basic auth.
-     */
     public static function client(string $username, string $password, string $host): Client
     {
         $basicAuthentication = BasicAuthentication::from(username: $username, password: $password);
