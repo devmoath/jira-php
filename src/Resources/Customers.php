@@ -12,7 +12,7 @@ final class Customers
     use Concerns\Transportable;
 
     /**
-     * Creates a customer that is not associated with a service project.
+     * Create a customer that is not associated with a service project.
      *
      * @see https://docs.atlassian.com/jira-servicedesk/REST/5.2.0/#servicedeskapi/customer-createCustomer
      *

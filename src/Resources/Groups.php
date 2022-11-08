@@ -12,7 +12,7 @@ final class Groups
     use Concerns\Transportable;
 
     /**
-     * Create a group by given group parameter
+     * Create a group by given group parameter.
      *
      * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/group-createGroup
      *
@@ -111,7 +111,7 @@ final class Groups
     }
 
     /**
-     * Remove an attachment.
+     * Remove given user from a group.
      *
      * @param  non-empty-array<array-key, mixed>  $query
      *
