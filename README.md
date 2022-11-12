@@ -738,4 +738,146 @@ $client->issues()->getComments(key: 'KEY-1000', query: [...]);
 
 ---
 
+#### `addComment` function
+
+Add new comment to an issue.
+
+```php
+$client->issues()->addComment(key: 'KEY-1000', body: [...], query: [...]);
+```
+
+<details>
+<summary>response example</summary>
+
+```php
+[
+    'self' => 'https://www.example.com/jira/rest/api/2/issue/10010/comment/10000',
+    'id' => '10000',
+    'author' => [
+        'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+        'name' => 'fred',
+        'displayName' => 'Fred F. User',
+        'active' => false,
+    ],
+    'body' => 'Lorem ipsum dolor sit amet.',
+    'updateAuthor' => [
+        'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+        'name' => 'fred',
+        'displayName' => 'Fred F. User',
+        'active' => false,
+    ],
+    'created' => '2019-02-09T10:08:20.180+0000',
+    'updated' => '2019-02-09T10:08:20.181+0000',
+    'visibility' => [
+        'type' => 'role',
+        'value' => 'Administrators',
+    ],
+];
+```
+
+</details>
+
+---
+
+#### `updateComment` function
+
+Update existing comment using its JSON representation.
+
+```php
+$client->issues()->updateComment(key: 'KEY-1000', id: '10000', body: [...], query: [...]);
+```
+
+<details>
+<summary>response example</summary>
+
+```php
+[
+    'self' => 'https://www.example.com/jira/rest/api/2/issue/10010/comment/10000',
+    'id' => '10000',
+    'author' => [
+        'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+        'name' => 'fred',
+        'displayName' => 'Fred F. User',
+        'active' => false,
+    ],
+    'body' => 'Lorem ipsum dolor sit amet.',
+    'updateAuthor' => [
+        'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+        'name' => 'fred',
+        'displayName' => 'Fred F. User',
+        'active' => false,
+    ],
+    'created' => '2019-02-09T10:08:20.180+0000',
+    'updated' => '2019-02-09T10:08:20.181+0000',
+    'visibility' => [
+        'type' => 'role',
+        'value' => 'Administrators',
+    ],
+];
+```
+
+</details>
+
+---
+
+#### `deleteComment` function
+
+Delete an existing comment.
+
+```php
+$client->issues()->deleteComment(key: 'KEY-1000', id: '10000', query: [...]);
+```
+
+<details>
+<summary>response example</summary>
+
+```php
+null
+```
+
+</details>
+
+---
+
+#### `getComment` function
+
+Return a single comment.
+
+```php
+$client->issues()->getComment(key: 'KEY-1000', id: '10000', query: [...]);
+```
+
+<details>
+<summary>response example</summary>
+
+```php
+[
+    'self' => 'https://www.example.com/jira/rest/api/2/issue/10010/comment/10000',
+    'id' => '10000',
+    'author' => [
+        'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+        'name' => 'fred',
+        'displayName' => 'Fred F. User',
+        'active' => false,
+    ],
+    'body' => 'Lorem ipsum dolor sit amet.',
+    'updateAuthor' => [
+        'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+        'name' => 'fred',
+        'displayName' => 'Fred F. User',
+        'active' => false,
+    ],
+    'created' => '2019-02-09T10:08:20.180+0000',
+    'updated' => '2019-02-09T10:08:20.181+0000',
+    'visibility' => [
+        'type' => 'role',
+        'value' => 'Administrators',
+    ],
+];
+```
+
+</details>
+
+---
+
 Jira PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.
