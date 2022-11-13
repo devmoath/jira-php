@@ -383,12 +383,7 @@ $client
 Return a full representation of the issue for the given issue key.
 
 ```php
-$client
-    ->issues()
-    ->get(
-        key: 'KEY-1000',
-        query: [...],
-    );
+$client->issues()->get(id: 'KEY-1000', query: [...]);
 ```
 
 <details>
@@ -608,12 +603,7 @@ $client
 Delete an issue.
 
 ```php
-$client
-    ->issues()
-    ->delete(
-        key: 'KEY-1000',
-        query: [...],
-    );
+$client->issues()->delete(id: 'KEY-1000', query: [...]);
 ```
 
 <details>
@@ -632,13 +622,7 @@ null
 Edit an issue from a JSON representation.
 
 ```php
-$client
-    ->issues()
-    ->edit(
-        key: 'KEY-1000',
-        body: [...],
-        query: [...],
-    );
+$client->issues()->edit(id: 'KEY-1000', body: [...], query: [...]);
 ```
 
 <details>
@@ -657,7 +641,7 @@ null
 Archive an issue.
 
 ```php
-$client->issues()->archive(key: 'KEY-1000');
+$client->issues()->archive(id: 'KEY-1000');
 ```
 
 <details>
@@ -676,7 +660,7 @@ null
 Assign an issue to a user.
 
 ```php
-$client->issues()->assign(key: 'KEY-1000', body: [...]);
+$client->issues()->assign(id: 'KEY-1000', body: [...]);
 ```
 
 <details>
@@ -695,7 +679,7 @@ null
 Return all comments for an issue.
 
 ```php
-$client->issues()->getComments(key: 'KEY-1000', query: [...]);
+$client->issues()->getComments(id: 'KEY-1000', query: [...]);
 ```
 
 <details>
@@ -743,7 +727,7 @@ $client->issues()->getComments(key: 'KEY-1000', query: [...]);
 Add new comment to an issue.
 
 ```php
-$client->issues()->addComment(key: 'KEY-1000', body: [...], query: [...]);
+$client->issues()->addComment(id: 'KEY-1000', body: [...], query: [...]);
 ```
 
 <details>
@@ -784,7 +768,7 @@ $client->issues()->addComment(key: 'KEY-1000', body: [...], query: [...]);
 Update existing comment using its JSON representation.
 
 ```php
-$client->issues()->updateComment(key: 'KEY-1000', id: '10000', body: [...], query: [...]);
+$client->issues()->updateComment(id: 'KEY-1000', commentId: '10000', body: [...], query: [...]);
 ```
 
 <details>
@@ -825,7 +809,7 @@ $client->issues()->updateComment(key: 'KEY-1000', id: '10000', body: [...], quer
 Delete an existing comment.
 
 ```php
-$client->issues()->deleteComment(key: 'KEY-1000', id: '10000', query: [...]);
+$client->issues()->deleteComment(id: 'KEY-1000', commentId: '10000', query: [...]);
 ```
 
 <details>
@@ -844,7 +828,7 @@ null
 Return a single comment.
 
 ```php
-$client->issues()->getComment(key: 'KEY-1000', id: '10000', query: [...]);
+$client->issues()->getComment(id: 'KEY-1000', commentId: '10000', query: [...]);
 ```
 
 <details>
@@ -885,7 +869,7 @@ $client->issues()->getComment(key: 'KEY-1000', id: '10000', query: [...]);
 Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
 
 ```php
-$client->issues()->getTransitions(key: 'KEY-1000', query: [...]);
+$client->issues()->getTransitions(id: 'KEY-1000', query: [...]);
 ```
 
 <details>
@@ -986,7 +970,7 @@ $client->issues()->getTransitions(key: 'KEY-1000', query: [...]);
 Perform a transition on an issue.
 
 ```php
-$client->issues()->doTransition(key: 'KEY-1000', body: [...], query: [...]);
+$client->issues()->doTransition(id: 'KEY-1000', body: [...], query: [...]);
 ```
 
 <details>
@@ -1005,7 +989,7 @@ null
 Add one or more attachments to an issue.
 
 ```php
-$client->issues()->attach(key: 'KEY-1000', body: [...]);
+$client->issues()->attach(id: 'KEY-1000', body: [...]);
 ```
 
 <details>

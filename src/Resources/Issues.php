@@ -75,10 +75,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function get(string $key, array $query = []): array
+    public function get(int|string $id, array $query = []): array
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key",
+            uri: "api/2/issue/$id",
             query: $query,
         );
 
@@ -98,10 +98,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function delete(string $key, array $query = []): void
+    public function delete(int|string $id, array $query = []): void
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key",
+            uri: "api/2/issue/$id",
             method: Method::DELETE,
             query: $query,
         );
@@ -122,10 +122,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function edit(string $key, array $body, array $query = []): void
+    public function edit(int|string $id, array $body, array $query = []): void
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key",
+            uri: "api/2/issue/$id",
             method: Method::PUT,
             body: $body,
             query: $query,
@@ -144,10 +144,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function archive(string $key): void
+    public function archive(int|string $id): void
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key/archive",
+            uri: "api/2/issue/$id/archive",
             method: Method::PUT,
         );
 
@@ -166,10 +166,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function assign(string $key, array $body): void
+    public function assign(int|string $id, array $body): void
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key/assignee",
+            uri: "api/2/issue/$id/assignee",
             method: Method::PUT,
             body: $body,
         );
@@ -190,10 +190,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function getComments(string $key, array $query = []): array
+    public function getComments(int|string $id, array $query = []): array
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key/comment",
+            uri: "api/2/issue/$id/comment",
             query: $query,
         );
 
@@ -215,10 +215,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function addComment(string $key, array $body, array $query = []): array
+    public function addComment(int|string $id, array $body, array $query = []): array
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key/comment",
+            uri: "api/2/issue/$id/comment",
             method: Method::POST,
             body: $body,
             query: $query,
@@ -242,10 +242,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function updateComment(string $key, string $id, array $body, array $query = []): array
+    public function updateComment(int|string $id, int|string $commentId, array $body, array $query = []): array
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key/comment/$id",
+            uri: "api/2/issue/$id/comment/$commentId",
             method: Method::PUT,
             body: $body,
             query: $query,
@@ -267,10 +267,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function deleteComment(string $key, string $id, array $query = []): void
+    public function deleteComment(int|string $id, int|string $commentId, array $query = []): void
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key/comment/$id",
+            uri: "api/2/issue/$id/comment/$commentId",
             method: Method::DELETE,
             query: $query,
         );
@@ -291,10 +291,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function getComment(string $key, string $id, array $query = []): array
+    public function getComment(int|string $id, int|string $commentId, array $query = []): array
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key/comment/$id",
+            uri: "api/2/issue/$id/comment/$commentId",
             query: $query,
         );
 
@@ -315,10 +315,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function getTransitions(string $key, array $query = []): array
+    public function getTransitions(int|string $id, array $query = []): array
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key/transitions",
+            uri: "api/2/issue/$id/transitions",
             query: $query,
         );
 
@@ -339,10 +339,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function doTransition(string $key, array $body, array $query = []): void
+    public function doTransition(int|string $id, array $body, array $query = []): void
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key/transitions",
+            uri: "api/2/issue/$id/transitions",
             method: Method::POST,
             body: $body,
             query: $query
@@ -364,10 +364,10 @@ final class Issues
      * @throws \Jira\Exceptions\UnserializableResponse
      * @throws \JsonException
      */
-    public function attach(string $key, array $body): array
+    public function attach(int|string $id, array $body): array
     {
         $payload = Payload::create(
-            uri: "api/2/issue/$key/attachments",
+            uri: "api/2/issue/$id/attachments",
             method: Method::POST,
             contentType: ContentType::MULTIPART,
             body: $body,

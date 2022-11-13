@@ -57,7 +57,7 @@ it('can get an issue', function () {
     );
 
     $result = $client->issues()->get(
-        key: 'KEY-1000',
+        id: 'KEY-1000',
         query: [
             'fields' => '*all',
         ]
@@ -72,7 +72,7 @@ it('can delete an issue', function () {
         uri: 'api/2/issue/KEY-1000',
     );
 
-    $result = $client->issues()->delete(key: 'KEY-1000');
+    $result = $client->issues()->delete(id: 'KEY-1000');
 
     expect($result)->toBeNull();
 });
@@ -84,7 +84,7 @@ it('can edit an issue', function () {
     );
 
     $result = $client->issues()->edit(
-        key: 'KEY-1000',
+        id: 'KEY-1000',
         body: [
             'fields' => [
                 'description' => 'edited!',
@@ -101,7 +101,7 @@ it('can archive an issue', function () {
         uri: 'api/2/issue/KEY-1000/archive',
     );
 
-    $result = $client->issues()->archive(key: 'KEY-1000');
+    $result = $client->issues()->archive(id: 'KEY-1000');
 
     expect($result)->toBeNull();
 });
@@ -113,7 +113,7 @@ it('can assign an issue to a user', function () {
     );
 
     $result = $client->issues()->assign(
-        key: 'KEY-1000',
+        id: 'KEY-1000',
         body: [
             'name' => 'user name',
         ]
@@ -129,7 +129,7 @@ it('can get issue comments', function () {
         response: getIssueComments()
     );
 
-    $result = $client->issues()->getComments(key: 'KEY-1000');
+    $result = $client->issues()->getComments(id: 'KEY-1000');
 
     expect($result)->toBe(getIssueComments());
 });
@@ -142,7 +142,7 @@ it('can add comment to an issue', function () {
     );
 
     $result = $client->issues()->addComment(
-        key: 'KEY-1000',
+        id: 'KEY-1000',
         body: [
             'body' => 'Kind reminder!',
         ]
@@ -159,8 +159,8 @@ it('can update a comment', function () {
     );
 
     $result = $client->issues()->updateComment(
-        key: 'KEY-1000',
-        id: '1',
+        id: 'KEY-1000',
+        commentId: '1',
         body: [
             'body' => 'Kind reminder!',
         ]
@@ -176,7 +176,7 @@ it('can delete a comment', function () {
         response: updateComment()
     );
 
-    $result = $client->issues()->deleteComment(key: 'KEY-1000', id: '1');
+    $result = $client->issues()->deleteComment(id: 'KEY-1000', commentId: '1');
 
     expect($result)->toBeNull();
 });
@@ -188,7 +188,7 @@ it('can get issue comment', function () {
         response: getComment()
     );
 
-    $result = $client->issues()->getComment(key: 'KEY-1000', id: '1');
+    $result = $client->issues()->getComment(id: 'KEY-1000', commentId: '1');
 
     expect($result)->toBe(getComment());
 });
@@ -200,7 +200,7 @@ it('can get issue transitions', function () {
         response: getIssueTransitions()
     );
 
-    $result = $client->issues()->getTransitions(key: 'KEY-1000');
+    $result = $client->issues()->getTransitions(id: 'KEY-1000');
 
     expect($result)->toBe(getIssueTransitions());
 });
@@ -212,7 +212,7 @@ it('can transition an issue', function () {
     );
 
     $result = $client->issues()->doTransition(
-        key: 'KEY-1000',
+        id: 'KEY-1000',
         body: [
             'transition' => [
                 'id' => 1000,
@@ -231,7 +231,7 @@ it('can attach files to an issue', function () {
     );
 
     $result = $client->issues()->attach(
-        key: 'KEY-1000',
+        id: 'KEY-1000',
         body: [
             [
                 'name' => 'file',
