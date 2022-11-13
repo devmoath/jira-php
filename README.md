@@ -880,4 +880,322 @@ $client->issues()->getComment(key: 'KEY-1000', id: '10000', query: [...]);
 
 ---
 
+#### `getTransitions` function
+
+Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
+
+```php
+$client->issues()->getTransitions(key: 'KEY-1000', query: [...]);
+```
+
+<details>
+<summary>response example</summary>
+
+```php
+[
+    'expand' => 'transitions',
+    'transitions' => [
+        [
+            'id' => '2',
+            'name' => 'Close Issue',
+            'to' => [
+                'self' => 'https://localhost:8090/jira/rest/api/2.0/status/10000',
+                'description' => 'The issue is currently being worked on.',
+                'iconUrl' => 'https://localhost:8090/jira/images/icons/progress.gif',
+                'name' => 'In Progress',
+                'id' => '10000',
+                'statusCategory' => [
+                    'self' => 'https://localhost:8090/jira/rest/api/2.0/statuscategory/1',
+                    'id' => 1,
+                    'key' => 'in-flight',
+                    'colorName' => 'yellow',
+                    'name' => 'In Progress',
+                ],
+            ],
+            'fields' => [
+                'summary' => [
+                    'required' => false,
+                    'schema' => [
+                        'type' => 'array',
+                        'items' => 'option',
+                        'custom' => 'com.atlassian.jira.plugin.system.customfieldtypes:multiselect',
+                        'customId' => 10001,
+                    ],
+                    'name' => 'My Multi Select',
+                    'hasDefaultValue' => false,
+                    'operations' => ['set', 'add'],
+                    'allowedValues' => ['red', 'blue'],
+                ],
+            ],
+        ],
+        [
+            'id' => '711',
+            'name' => 'QA Review',
+            'to' => [
+                'self' => 'https://localhost:8090/jira/rest/api/2.0/status/5',
+                'description' => 'The issue is closed.',
+                'iconUrl' => 'https://localhost:8090/jira/images/icons/closed.gif',
+                'name' => 'Closed',
+                'id' => '5',
+                'statusCategory' => [
+                    'self' => 'https://localhost:8090/jira/rest/api/2.0/statuscategory/9',
+                    'id' => 9,
+                    'key' => 'completed',
+                    'colorName' => 'green',
+                ],
+            ],
+            'fields' => [
+                'summary' => [
+                    'required' => false,
+                    'schema' => [
+                        'type' => 'array',
+                        'items' => 'option',
+                        'custom' => 'com.atlassian.jira.plugin.system.customfieldtypes:multiselect',
+                        'customId' => 10001,
+                    ],
+                    'name' => 'My Multi Select',
+                    'hasDefaultValue' => false,
+                    'operations' => ['set', 'add'],
+                    'allowedValues' => ['red', 'blue'],
+                ],
+                'colour' => [
+                    'required' => false,
+                    'schema' => [
+                        'type' => 'array',
+                        'items' => 'option',
+                        'custom' => 'com.atlassian.jira.plugin.system.customfieldtypes:multiselect',
+                        'customId' => 10001,
+                    ],
+                    'name' => 'My Multi Select',
+                    'hasDefaultValue' => false,
+                    'operations' => ['set', 'add'],
+                    'allowedValues' => ['red', 'blue'],
+                ],
+            ],
+        ],
+    ],
+];
+```
+
+</details>
+
+---
+
+#### `doTransition` function
+
+Perform a transition on an issue.
+
+```php
+$client->issues()->doTransition(key: 'KEY-1000', body: [...], query: [...]);
+```
+
+<details>
+<summary>response example</summary>
+
+```php
+null
+```
+
+</details>
+
+---
+
+#### `attach` function
+
+Add one or more attachments to an issue.
+
+```php
+$client->issues()->attach(key: 'KEY-1000', body: [...]);
+```
+
+<details>
+<summary>response example</summary>
+
+```php
+[
+    [
+        'self' => 'https://www.example.com/jira/rest/api/2.0/attachments/10000',
+        'filename' => 'picture.jpg',
+        'author' => [
+            'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+            'name' => 'fred',
+            'avatarUrls' => [
+                '48x48' => 'https://www.example.com/jira/secure/useravatar?size=large&ownerId=fred',
+                '24x24' => 'https://www.example.com/jira/secure/useravatar?size=small&ownerId=fred',
+                '16x16' => 'https://www.example.com/jira/secure/useravatar?size=xsmall&ownerId=fred',
+                '32x32' => 'https://www.example.com/jira/secure/useravatar?size=medium&ownerId=fred',
+            ],
+            'displayName' => 'Fred F. User',
+            'active' => false,
+        ],
+        'created' => '2019-02-09T10:08:20.478+0000',
+        'size' => 23123,
+        'mimeType' => 'image/jpeg',
+        'content' => 'https://www.example.com/jira/attachments/10000',
+        'thumbnail' => 'https://www.example.com/jira/secure/thumbnail/10000',
+    ],
+    [
+        'self' => 'https://www.example.com/jira/rest/api/2.0/attachments/10001',
+        'filename' => 'dbeuglog.txt',
+        'author' => [
+            'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+            'name' => 'fred',
+            'avatarUrls' => [
+                '48x48' => 'https://www.example.com/jira/secure/useravatar?size=large&ownerId=fred',
+                '24x24' => 'https://www.example.com/jira/secure/useravatar?size=small&ownerId=fred',
+                '16x16' => 'https://www.example.com/jira/secure/useravatar?size=xsmall&ownerId=fred',
+                '32x32' => 'https://www.example.com/jira/secure/useravatar?size=medium&ownerId=fred',
+            ],
+            'displayName' => 'Fred F. User',
+            'active' => false,
+        ],
+        'created' => '2019-02-09T10:08:20.478+0000',
+        'size' => 2460,
+        'mimeType' => 'text/plain',
+        'content' => 'https://www.example.com/jira/attachments/10001',
+        'thumbnail' => 'https://www.example.com/jira/secure/thumbnail/10002',
+    ],
+];
+```
+
+</details>
+
+---
+
+#### `search` function
+
+Search for issues using JQL.
+
+```php
+$client->issues()->search(query: [...]);
+```
+
+<details>
+<summary>response example</summary>
+
+```php
+[
+    'expand' => 'names,schema',
+    'startAt' => 0,
+    'maxResults' => 50,
+    'total' => 1,
+    'issues' => [
+        [
+            'expand' => '',
+            'id' => '10001',
+            'self' => 'https://www.example.com/jira/rest/api/2/issue/10001',
+            'key' => 'HSP-1',
+        ],
+    ],
+];
+```
+
+</details>
+
+---
+
+### `Requests` Resource
+
+#### `create` function
+
+Create a customer request in a service project.
+
+```php
+$client->requests()->create(body: [...]);
+```
+
+<details>
+<summary>response example</summary>
+
+```php
+[
+    '_expands' => ['participant', 'status', 'sla', 'requestType', 'serviceDesk'],
+    'issueId' => '107001',
+    'issueKey' => 'HELPDESK-1',
+    'requestTypeId' => '25',
+    'serviceDeskId' => '10',
+    'createdDate' => [
+        'iso8601' => '2015-10-08T14:42:00+0700',
+        'jira' => '2015-10-08T14:42:00.000+0700',
+        'friendly' => 'Monday 14:42 PM',
+        'epochMillis' => 1444290120000,
+    ],
+    'reporter' => [
+        'name' => 'fred',
+        'key' => 'fred',
+        'emailAddress' => 'fred@example.com',
+        'displayName' => 'Fred F. User',
+        'active' => true,
+        'timeZone' => 'Australia/Sydney',
+        '_links' => [
+            'jiraRest' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+            'avatarUrls' => [
+                '48x48' => 'https://www.example.com/jira/secure/useravatar?size=large&ownerId=fred',
+                '24x24' => 'https://www.example.com/jira/secure/useravatar?size=small&ownerId=fred',
+                '16x16' => 'https://www.example.com/jira/secure/useravatar?size=xsmall&ownerId=fred',
+                '32x32' => 'https://www.example.com/jira/secure/useravatar?size=medium&ownerId=fred',
+            ],
+            'self' => 'https://www.example.com/jira/rest/api/2/user?username=fred',
+        ],
+    ],
+    'requestFieldValues' => [
+        [
+            'fieldId' => 'summary',
+            'label' => 'What do you need?',
+            'value' => 'Request JSD help via REST',
+        ],
+        [
+            'fieldId' => 'description',
+            'label' => 'Why do you need this?',
+            'value' => 'I need a new mouse for my Mac',
+        ],
+    ],
+    'currentStatus' => [
+        'status' => 'Waiting for Support',
+        'statusDate' => [
+            'iso8601' => '2015-10-08T14:01:00+0700',
+            'jira' => '2015-10-08T14:01:00.000+0700',
+            'friendly' => 'Today 14:01 PM',
+            'epochMillis' => 1444287660000,
+        ],
+    ],
+    '_links' => [
+        'jiraRest' => 'https://host:port/context/rest/api/2/issue/107001',
+        'web' => 'https://host:port/context/servicedesk/customer/portal/10/HELPDESK-1',
+        'self' => 'https://host:port/context/rest/servicedeskapi/request/107001',
+    ],
+];
+```
+
+</details>
+
+---
+
+### `Users` Resource
+
+#### `update` function
+
+Modify user.
+
+```php
+$client->users()->update(body: [...]);
+```
+
+<details>
+<summary>response example</summary>
+
+```php
+[
+    'self' => 'https://www.example.com/jira/rest/api/2/user/charlie',
+    'key' => 'charlie',
+    'name' => 'charlie',
+    'emailAddress' => 'charlie@atlassian.com',
+    'displayName' => 'Charlie of Atlassian',
+];
+```
+
+</details>
+
+---
+
 Jira PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.
