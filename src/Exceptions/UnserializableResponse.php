@@ -12,8 +12,8 @@ use JsonException;
  */
 final class UnserializableResponse extends Exception
 {
-    public function __construct(JsonException $exception)
+    public function __construct(JsonException $jsonException)
     {
-        parent::__construct($exception->getMessage(), 0, $exception);
+        parent::__construct($jsonException->getMessage(), 0, $jsonException);
     }
 }

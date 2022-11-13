@@ -21,8 +21,8 @@ final class Jira
 
         $client = new GuzzleClient();
 
-        $transporter = new HttpTransporter(client: $client, baseUri: $baseUri, headers: $headers);
+        $httpTransporter = new HttpTransporter(client: $client, baseUri: $baseUri, headers: $headers);
 
-        return new Client(transporter: $transporter);
+        return new Client(transporter: $httpTransporter);
     }
 }

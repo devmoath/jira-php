@@ -35,7 +35,7 @@ final class HttpTransporter implements Transporter
         try {
             $response = $this->client->sendRequest(request: $request);
         } catch (ClientExceptionInterface $clientException) {
-            throw new TransporterException(exception: $clientException);
+            throw new TransporterException(clientException: $clientException);
         }
 
         $contents = $response->getBody()->getContents();
@@ -48,7 +48,7 @@ final class HttpTransporter implements Transporter
             /** @var non-empty-array<array-key, mixed> $response */
             $response = json_decode(json: $contents, associative: true, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
-            throw new UnserializableResponse(exception: $jsonException);
+            throw new UnserializableResponse(jsonException: $jsonException);
         }
 
         if (isset($response['errorMessage']) && $response['errorMessage'] !== '') {

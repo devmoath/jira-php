@@ -12,8 +12,8 @@ use Psr\Http\Client\ClientExceptionInterface;
  */
 final class TransporterException extends Exception
 {
-    public function __construct(ClientExceptionInterface $exception)
+    public function __construct(ClientExceptionInterface $clientException)
     {
-        parent::__construct($exception->getMessage(), 0, $exception);
+        parent::__construct($clientException->getMessage(), 0, $clientException);
     }
 }
