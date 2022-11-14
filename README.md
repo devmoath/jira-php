@@ -1,4 +1,16 @@
 <p align="center">
+    <img src="art/example-3.png" alt="Jira PHP">
+</p>
+
+<p align="center">
+    <img src="art/example-3-1.png" alt="Jira PHP">
+</p>
+
+<p align="center">
+    <img src="art/example-3-no-shadow.png" alt="Jira PHP">
+</p>
+
+<p align="center">
     <img src="art/example-3-transparent.png" alt="Jira PHP">
 </p>
 
