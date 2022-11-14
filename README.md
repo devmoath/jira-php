@@ -28,7 +28,7 @@ composer require devmoath/jira-php dev-master
 Then, interact with Jira's APIs:
 
 ```php
-$client = Jira::client(username: 'USERNAME', password: 'PASSWORD', host: 'jira.domain.com');
+$client = Jira::client('USERNAME', 'PASSWORD', 'jira.domain.com');
 
 $result = $client->issues()->search();
 
