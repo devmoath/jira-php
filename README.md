@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="art/example-3-transparent.png" width="800" alt="Jira PHP">
+    <img src="art/example-3-transparent.png" alt="Jira PHP">
 </p>
 
 <p align="center">
