@@ -11,7 +11,9 @@
 
 ---
 
-**Jira PHP** is a supercharged PHP API client that allows you to interact with the [Jira API](https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0) and the [Service Desk API](https://docs.atlassian.com/jira-servicedesk/REST/5.2.0/).
+**Jira PHP** is a supercharged PHP API client that allows you to interact with
+the [Jira API](https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0) and
+the [Service Desk API](https://docs.atlassian.com/jira-servicedesk/REST/5.2.0/).
 
 > This project is a work-in-progress. Code and documentation are currently under development and are subject to change.
 
@@ -223,8 +225,8 @@ $client->groups()->getUsers(
 
 ```php
 [
-    'self' => 'https://www.example.com/jira/rest/api/2/group/member?groupname=jira-administrators&includeInactiveUsers=false&startAt=2&maxResults=2',
-    'nextPage' => 'https://www.example.com/jira/rest/api/2/group/member?groupname=jira-administrators&includeInactiveUsers=false&startAt=4&maxResults=2',
+    'self' => 'https://example.com/rest/api/2/group/member?groupname=admin&startAt=2&maxResults=2',
+    'nextPage' => 'https://example.com/rest/api/2/group/member?groupname=admin&startAt=4&maxResults=2',
     'maxResults' => 2,
     'startAt' => 3,
     'total' => 5,
@@ -867,7 +869,8 @@ $client->issues()->getComment(id: 'KEY-1000', commentId: '10000', query: [...]);
 
 #### `getTransitions` function
 
-Get a list of the transitions possible for this issue by the current user, along with fields that are required and their types.
+Get a list of the transitions possible for this issue by the current user, along with fields that are required and their
+types.
 
 ```php
 $client->issues()->getTransitions(id: 'KEY-1000', query: [...]);
