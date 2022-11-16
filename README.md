@@ -15,8 +15,6 @@
 the [Jira API](https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0) and
 the [Service Desk API](https://docs.atlassian.com/jira-servicedesk/REST/5.2.0/).
 
-> This project is a work-in-progress. Code and documentation are currently under development and are subject to change.
-
 ## Get Started
 
 > **Requires [PHP 8.1+](https://php.net/releases/)**
@@ -24,7 +22,7 @@ the [Service Desk API](https://docs.atlassian.com/jira-servicedesk/REST/5.2.0/).
 First, install `devmoath/jira-php` via the [Composer](https://getcomposer.org/) package manager:
 
 ```bash
-composer require devmoath/jira-php dev-master
+composer require devmoath/jira-php
 ```
 
 Then, interact with Jira's APIs:
