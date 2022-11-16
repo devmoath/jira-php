@@ -7,13 +7,13 @@ namespace Jira\Exceptions;
 use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 
+/**
+ * @internal
+ */
 final class TransporterException extends Exception
 {
-    /**
-     * Creates a new Exception instance.
-     */
-    public function __construct(ClientExceptionInterface $exception)
+    public function __construct(ClientExceptionInterface $clientException)
     {
-        parent::__construct($exception->getMessage(), 0, $exception);
+        parent::__construct($clientException->getMessage(), 0, $clientException);
     }
 }

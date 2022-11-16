@@ -6,41 +6,46 @@ namespace Jira;
 
 use Jira\Contracts\Transporter;
 use Jira\Resources\Attachments;
+use Jira\Resources\Customers;
+use Jira\Resources\Groups;
 use Jira\Resources\Issues;
-use Jira\Resources\ServiceDesk;
+use Jira\Resources\Requests;
+use Jira\Resources\Users;
 
 final class Client
 {
-    /**
-     * Creates a Client instance with the given credential.
-     */
     public function __construct(private readonly Transporter $transporter)
     {
-        // ..
+        //
     }
 
-    /**
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/issue
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/search-search
-     */
+    public function attachments(): Attachments
+    {
+        return new Attachments(transporter: $this->transporter);
+    }
+
+    public function customers(): Customers
+    {
+        return new Customers(transporter: $this->transporter);
+    }
+
+    public function groups(): Groups
+    {
+        return new Groups(transporter: $this->transporter);
+    }
+
     public function issues(): Issues
     {
         return new Issues(transporter: $this->transporter);
     }
 
-    /**
-     * @see https://docs.atlassian.com/jira-servicedesk/REST/5.2.0
-     */
-    public function serviceDesk(): ServiceDesk
+    public function requests(): Requests
     {
-        return new ServiceDesk(transporter: $this->transporter);
+        return new Requests(transporter: $this->transporter);
     }
 
-    /**
-     * @see https://docs.atlassian.com/software/jira/docs/api/REST/8.0.0/#api/2/attachment
-     */
-    public function attachments(): Attachments
+    public function users(): Users
     {
-        return new Attachments(transporter: $this->transporter);
+        return new Users(transporter: $this->transporter);
     }
 }

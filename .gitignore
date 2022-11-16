@@ -1,4 +1,7 @@
-/.phpunit.result.cache
-/composer.lock
-/vendor/
 /.idea/
+/node_modules
+/vendor/
+/.phpunit.result.cache
+/package.json
+/composer.lock
+/yarn.lock

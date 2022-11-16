@@ -8,7 +8,6 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request as Psr7Request;
 use Jira\Enums\Transporter\ContentType;
 use Jira\Enums\Transporter\Method;
-use Jira\ValueObjects\ResourceUri;
 
 /**
  * @internal
@@ -16,51 +15,47 @@ use Jira\ValueObjects\ResourceUri;
 final class Payload
 {
     /**
-     * Creates a new Request value object.
-     *
-     * @param  array<string, mixed>  $parameters
+     * @param  array<array-key, mixed>  $body
+     * @param  array<array-key, mixed>  $query
      */
     private function __construct(
-        private readonly ContentType $contentType,
-        private readonly Method $method,
-        private readonly ResourceUri $uri,
-        private readonly array $parameters = [],
+        private readonly string $uri,
+        private readonly Method $method = Method::GET,
+        private readonly ContentType $contentType = ContentType::JSON,
+        private readonly array $body = [],
+        private readonly array $query = []
     ) {
         // ..
     }
 
     /**
-     * Creates a new Request value object.
-     *
-     * @param  array<string, mixed>  $parameters
+     * @param  array<array-key, mixed>  $body
+     * @param  array<array-key, mixed>  $query
      */
-    public static function create(ContentType $contentType, Method $method, ResourceUri $uri, array $parameters = []): self
-    {
+    public static function create(
+        string $uri,
+        Method $method = Method::GET,
+        ContentType $contentType = ContentType::JSON,
+        array $body = [],
+        array $query = []
+    ): self {
         return new self(
-            contentType: $contentType,
-            method: $method,
             uri: $uri,
-            parameters: $parameters,
+            method: $method,
+            contentType: $contentType,
+            body: $body,
+            query: $query,
         );
     }
 
     /**
-     * Creates a new Psr 7 Request instance.
-     *
      * @throws \JsonException
      */
     public function toRequest(BaseUri $baseUri, Headers $headers): Psr7Request
     {
-        $body = null;
-        $query = null;
+        $body = $this->getBody();
 
-        if (in_array(needle: $this->method, haystack: [Method::POST, Method::PUT], strict: true)) {
-            $body = $this->contentType === ContentType::MULTIPART
-                ? new MultipartStream(elements: $this->parameters)
-                : json_encode(value: $this->parameters, flags: JSON_THROW_ON_ERROR);
-        } else {
-            $query = '?'.http_build_query(data: $this->parameters);
-        }
+        $query = $this->query !== [] ? '?'.http_build_query(data: $this->query) : '';
 
         $headers = $headers->withContentType(
             contentType: $this->contentType,
@@ -73,5 +68,18 @@ final class Payload
             headers: $headers->toArray(),
             body: $body,
         );
+    }
+
+    private function getBody(): MultipartStream|string|null
+    {
+        if ($this->body === []) {
+            return null;
+        }
+
+        if ($this->contentType === ContentType::MULTIPART) {
+            return new MultipartStream(elements: $this->body);
+        }
+
+        return json_encode(value: $this->body, flags: JSON_THROW_ON_ERROR);
     }
 }

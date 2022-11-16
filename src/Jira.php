@@ -11,9 +11,6 @@ use Jira\ValueObjects\Transporter\Headers;
 
 final class Jira
 {
-    /**
-     * Creates a new Jira Client with the given basic auth.
-     */
     public static function client(string $username, string $password, string $host): Client
     {
         $basicAuthentication = BasicAuthentication::from(username: $username, password: $password);
@@ -24,8 +21,8 @@ final class Jira
 
         $client = new GuzzleClient();
 
-        $transporter = new HttpTransporter(client: $client, baseUri: $baseUri, headers: $headers);
+        $httpTransporter = new HttpTransporter(client: $client, baseUri: $baseUri, headers: $headers);
 
-        return new Client(transporter: $transporter);
+        return new Client(transporter: $httpTransporter);
     }
 }

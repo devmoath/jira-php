@@ -8,7 +8,7 @@ use Stringable;
 
 final class BasicAuthentication implements Stringable
 {
-    private function __construct(public readonly string $username, public readonly string $password)
+    private function __construct(private readonly string $username, private readonly string $password)
     {
         // ..
     }

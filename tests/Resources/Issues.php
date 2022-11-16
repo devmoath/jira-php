@@ -1,17 +1,16 @@
 <?php
 
 use Jira\Enums\Transporter\Method;
-use Jira\ValueObjects\ResourceUri;
 
 it('can create an issue', function () {
     $client = mockClient(
         method: Method::POST,
-        uri: ResourceUri::create('api/2/issue'),
+        uri: 'api/2/issue',
         response: createIssue()
     );
 
     $result = $client->issues()
-        ->create(parameters: [
+        ->create(body: [
             'project' => [
                 'id' => '10000',
             ],
@@ -20,55 +19,73 @@ it('can create an issue', function () {
     expect($result)->toBe(createIssue());
 });
 
-it('can list issues', function () {
-    $client = mockClient(
-        method: Method::GET,
-        uri: ResourceUri::create('api/2/search'),
-        response: listIssues()
-    );
-
-    $result = $client->issues()->list();
-
-    expect($result)->toBe(listIssues());
-});
-
-it('can retrieve an issue', function () {
-    $client = mockClient(
-        method: Method::GET,
-        uri: ResourceUri::create('api/2/issue/KEY-1000'),
-        response: retrieveIssue()
-    );
-
-    $result = $client->issues()->retrieve(key: 'KEY-1000');
-
-    expect($result)->toBe(retrieveIssue());
-});
-
-it('can comment to an issue', function () {
+it('can create bulk of issues', function () {
     $client = mockClient(
         method: Method::POST,
-        uri: ResourceUri::create('api/2/issue/KEY-1000/comment'),
-        response: commentIssue()
+        uri: 'api/2/issue/bulk',
+        response: createBulkIssues()
     );
 
-    $result = $client->issues()->comment(key: 'KEY-1000', parameters: [
-        'body' => 'Kind reminder!',
-    ]);
+    $result = $client->issues()
+        ->bulk(body: [
+            'issueUpdates' => [
+                [
+                    'fields' => [
+                        'project' => [
+                            'id' => '10000',
+                        ],
+                    ],
+                ],
+                [
+                    'fields' => [
+                        'project' => [
+                            'id' => '10000',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
 
-    expect($result)->toBe(commentIssue());
+    expect($result)->toBe(createBulkIssues());
+});
+
+it('can get an issue', function () {
+    $client = mockClient(
+        method: Method::GET,
+        uri: 'api/2/issue/KEY-1000',
+        response: getIssue()
+    );
+
+    $result = $client->issues()->get(
+        id: 'KEY-1000',
+        query: [
+            'fields' => '*all',
+        ]
+    );
+
+    expect($result)->toBe(getIssue());
+});
+
+it('can delete an issue', function () {
+    $client = mockClient(
+        method: Method::DELETE,
+        uri: 'api/2/issue/KEY-1000',
+    );
+
+    $result = $client->issues()->delete(id: 'KEY-1000');
+
+    expect($result)->toBeNull();
 });
 
 it('can edit an issue', function () {
     $client = mockClient(
         method: Method::PUT,
-        uri: ResourceUri::create('api/2/issue/KEY-1000'),
-        response: null
+        uri: 'api/2/issue/KEY-1000',
     );
 
-    /** @noinspection PhpVoidFunctionResultUsedInspection */
     $result = $client->issues()->edit(
-        key: 'KEY-1000',
-        parameters: [
+        id: 'KEY-1000',
+        body: [
             'fields' => [
                 'description' => 'edited!',
             ],
@@ -78,17 +95,125 @@ it('can edit an issue', function () {
     expect($result)->toBeNull();
 });
 
+it('can archive an issue', function () {
+    $client = mockClient(
+        method: Method::PUT,
+        uri: 'api/2/issue/KEY-1000/archive',
+    );
+
+    $result = $client->issues()->archive(id: 'KEY-1000');
+
+    expect($result)->toBeNull();
+});
+
+it('can assign an issue to a user', function () {
+    $client = mockClient(
+        method: Method::PUT,
+        uri: 'api/2/issue/KEY-1000/assignee',
+    );
+
+    $result = $client->issues()->assign(
+        id: 'KEY-1000',
+        body: [
+            'name' => 'user name',
+        ]
+    );
+
+    expect($result)->toBeNull();
+});
+
+it('can get issue comments', function () {
+    $client = mockClient(
+        method: Method::GET,
+        uri: 'api/2/issue/KEY-1000/comment',
+        response: getIssueComments()
+    );
+
+    $result = $client->issues()->getComments(id: 'KEY-1000');
+
+    expect($result)->toBe(getIssueComments());
+});
+
+it('can add comment to an issue', function () {
+    $client = mockClient(
+        method: Method::POST,
+        uri: 'api/2/issue/KEY-1000/comment',
+        response: addCommentToIssue()
+    );
+
+    $result = $client->issues()->addComment(
+        id: 'KEY-1000',
+        body: [
+            'body' => 'Kind reminder!',
+        ]
+    );
+
+    expect($result)->toBe(addCommentToIssue());
+});
+
+it('can update a comment', function () {
+    $client = mockClient(
+        method: Method::PUT,
+        uri: 'api/2/issue/KEY-1000/comment/1',
+        response: updateComment()
+    );
+
+    $result = $client->issues()->updateComment(
+        id: 'KEY-1000',
+        commentId: '1',
+        body: [
+            'body' => 'Kind reminder!',
+        ]
+    );
+
+    expect($result)->toBe(updateComment());
+});
+
+it('can delete a comment', function () {
+    $client = mockClient(
+        method: Method::DELETE,
+        uri: 'api/2/issue/KEY-1000/comment/1',
+        response: updateComment()
+    );
+
+    $result = $client->issues()->deleteComment(id: 'KEY-1000', commentId: '1');
+
+    expect($result)->toBeNull();
+});
+
+it('can get issue comment', function () {
+    $client = mockClient(
+        method: Method::GET,
+        uri: 'api/2/issue/KEY-1000/comment/1',
+        response: getComment()
+    );
+
+    $result = $client->issues()->getComment(id: 'KEY-1000', commentId: '1');
+
+    expect($result)->toBe(getComment());
+});
+
+it('can get issue transitions', function () {
+    $client = mockClient(
+        method: Method::GET,
+        uri: 'api/2/issue/KEY-1000/transitions',
+        response: getIssueTransitions()
+    );
+
+    $result = $client->issues()->getTransitions(id: 'KEY-1000');
+
+    expect($result)->toBe(getIssueTransitions());
+});
+
 it('can transition an issue', function () {
     $client = mockClient(
         method: Method::POST,
-        uri: ResourceUri::create('api/2/issue/KEY-1000/transitions'),
-        response: null
+        uri: 'api/2/issue/KEY-1000/transitions',
     );
 
-    /** @noinspection PhpVoidFunctionResultUsedInspection */
-    $result = $client->issues()->transition(
-        key: 'KEY-1000',
-        parameters: [
+    $result = $client->issues()->doTransition(
+        id: 'KEY-1000',
+        body: [
             'transition' => [
                 'id' => 1000,
             ],
@@ -101,13 +226,13 @@ it('can transition an issue', function () {
 it('can attach files to an issue', function () {
     $client = mockClient(
         method: Method::POST,
-        uri: ResourceUri::create('api/2/issue/KEY-1000/attachments'),
+        uri: 'api/2/issue/KEY-1000/attachments',
         response: attachFiles()
     );
 
     $result = $client->issues()->attach(
-        key: 'KEY-1000',
-        parameters: [
+        id: 'KEY-1000',
+        body: [
             [
                 'name' => 'file',
                 'contents' => 'hi',
@@ -122,4 +247,16 @@ it('can attach files to an issue', function () {
     );
 
     expect($result)->toBe(attachFiles());
+});
+
+it('can search for an issues', function () {
+    $client = mockClient(
+        method: Method::GET,
+        uri: 'api/2/search',
+        response: searchIssues()
+    );
+
+    $result = $client->issues()->search();
+
+    expect($result)->toBe(searchIssues());
 });

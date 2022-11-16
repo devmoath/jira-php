@@ -1,23 +1,21 @@
 <?php
 
 use Jira\Resources\Attachments;
+use Jira\Resources\Customers;
+use Jira\Resources\Groups;
 use Jira\Resources\Issues;
-use Jira\Resources\ServiceDesk;
+use Jira\Resources\Requests;
+use Jira\Resources\Users;
 
-it('has issues', function () {
-    $client = Jira::client('foo', 'bar', 'jira.example.com');
+it('has resources', function (string $function, string $class) {
+    $client = Jira::client(username: 'foo', password: 'bar', host: 'jira.example.com');
 
-    expect($client->issues())->toBeInstanceOf(Issues::class);
-});
-
-it('has service desk', function () {
-    $client = Jira::client('foo', 'bar', 'jira.example.com');
-
-    expect($client->serviceDesk())->toBeInstanceOf(ServiceDesk::class);
-});
-
-it('has attachments', function () {
-    $client = Jira::client('foo', 'bar', 'jira.example.com');
-
-    expect($client->attachments())->toBeInstanceOf(Attachments::class);
+    expect(call_user_func([$client, $function]))->toBeInstanceOf($class);
+})->with(function () {
+    yield ['attachments', Attachments::class];
+    yield ['customers', Customers::class];
+    yield ['groups', Groups::class];
+    yield ['issues', Issues::class];
+    yield ['requests', Requests::class];
+    yield ['users', Users::class];
 });
