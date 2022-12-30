@@ -56,9 +56,9 @@
         }
     },
     "scripts": {
-        "lint": "pint -v --ansi",
+        "lint": "pint --preset laravel -v --ansi",
         "refactor": "rector --debug --ansi",
-        "test:lint": "pint --test -v --ansi",
+        "test:lint": "pint --preset laravel --test -v --ansi",
         "test:refactor": "rector --dry-run --ansi",
         "test:types": "phpstan analyse --ansi",
         "test:unit": "pest --colors=always --min=100 --order-by=random --coverage",
