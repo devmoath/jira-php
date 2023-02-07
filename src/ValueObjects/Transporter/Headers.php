@@ -10,7 +10,7 @@ use Jira\ValueObjects\BasicAuthentication;
 /**
  * @internal
  */
-final class Headers
+class Headers
 {
     /**
      * Creates a new Headers value object.

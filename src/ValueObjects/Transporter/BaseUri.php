@@ -9,7 +9,7 @@ use Stringable;
 /**
  * @internal
  */
-final class BaseUri implements Stringable
+class BaseUri implements Stringable
 {
     private function __construct(private readonly string $baseUri)
     {

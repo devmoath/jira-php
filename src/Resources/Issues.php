@@ -8,7 +8,7 @@ use Jira\Enums\Transporter\ContentType;
 use Jira\Enums\Transporter\Method;
 use Jira\ValueObjects\Transporter\Payload;
 
-final class Issues
+class Issues
 {
     use Concerns\Transportable;
 

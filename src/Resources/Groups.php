@@ -7,7 +7,7 @@ namespace Jira\Resources;
 use Jira\Enums\Transporter\Method;
 use Jira\ValueObjects\Transporter\Payload;
 
-final class Groups
+class Groups
 {
     use Concerns\Transportable;
 

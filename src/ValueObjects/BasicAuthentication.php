@@ -6,7 +6,7 @@ namespace Jira\ValueObjects;
 
 use Stringable;
 
-final class BasicAuthentication implements Stringable
+class BasicAuthentication implements Stringable
 {
     private function __construct(private readonly string $username, private readonly string $password)
     {

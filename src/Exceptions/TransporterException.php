@@ -10,7 +10,7 @@ use Psr\Http\Client\ClientExceptionInterface;
 /**
  * @internal
  */
-final class TransporterException extends Exception
+class TransporterException extends Exception
 {
     public function __construct(ClientExceptionInterface $clientException)
     {

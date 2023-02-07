@@ -12,7 +12,7 @@ use Jira\Enums\Transporter\Method;
 /**
  * @internal
  */
-final class Payload
+class Payload
 {
     /**
      * @param  array<array-key, mixed>  $body

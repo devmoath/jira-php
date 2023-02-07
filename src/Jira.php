@@ -9,7 +9,7 @@ use Jira\ValueObjects\BasicAuthentication;
 use Jira\ValueObjects\Transporter\BaseUri;
 use Jira\ValueObjects\Transporter\Headers;
 
-final class Jira
+class Jira
 {
     public static function client(string $username, string $password, string $host): Client
     {

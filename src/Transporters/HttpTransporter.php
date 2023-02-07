@@ -18,7 +18,7 @@ use Psr\Http\Client\ClientInterface;
 /**
  * @internal
  */
-final class HttpTransporter implements Transporter
+class HttpTransporter implements Transporter
 {
     public function __construct(
         private readonly ClientInterface $client,

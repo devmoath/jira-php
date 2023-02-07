@@ -12,7 +12,7 @@ use Jira\Resources\Issues;
 use Jira\Resources\Requests;
 use Jira\Resources\Users;
 
-final class Client
+class Client
 {
     public function __construct(private readonly Transporter $transporter)
     {

@@ -10,7 +10,7 @@ use JsonException;
 /**
  * @internal
  */
-final class UnserializableResponse extends Exception
+class UnserializableResponse extends Exception
 {
     public function __construct(JsonException $jsonException)
     {
