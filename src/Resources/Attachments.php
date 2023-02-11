@@ -50,4 +50,18 @@ class Attachments
 
         $this->transporter->request(payload: $payload);
     }
+
+    /**
+     * download an attachment.
+     *
+     * @throws \Jira\Exceptions\ErrorException
+     * @throws \Jira\Exceptions\TransporterException
+     * @throws \JsonException
+     */
+    public function download(string $url): string
+    {
+        $payload = Payload::create(uri: $url);
+
+        return $this->transporter->requestContent(payload: $payload);
+    }
 }

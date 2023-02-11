@@ -38,7 +38,7 @@ class HttpTransporter implements Transporter
             throw new TransporterException(clientException: $clientException);
         }
 
-        $contents = $response->getBody()->getContents();
+        $contents = (string) $response->getBody();
 
         if (trim($contents) === '') {
             return null;
@@ -51,6 +51,42 @@ class HttpTransporter implements Transporter
             throw new UnserializableResponse(jsonException: $jsonException);
         }
 
+        $this->hasErrors($response);
+
+        return $response;
+    }
+
+    public function requestContent(Payload $payload): string
+    {
+        $request = $payload->toRequest($this->baseUri, $this->headers);
+
+        try {
+            $response = $this->client->sendRequest($request);
+        } catch (ClientExceptionInterface $clientException) {
+            throw new TransporterException($clientException);
+        }
+
+        $contents = (string) $response->getBody();
+
+        try {
+            /** @var non-empty-array<array-key, mixed> $response */
+            $response = json_decode(json: $contents, associative: true, flags: JSON_THROW_ON_ERROR);
+
+            $this->hasErrors($response);
+        } catch (JsonException) {
+            // ..
+        }
+
+        return $contents;
+    }
+
+    /**
+     * @param  non-empty-array<array-key, mixed>  $response
+     *
+     * @throws \Jira\Exceptions\ErrorException
+     */
+    private function hasErrors(array $response): void
+    {
         if (isset($response['errorMessage']) && $response['errorMessage'] !== '') {
             // @phpstan-ignore-next-line
             throw new ErrorException(message: $response['errorMessage']);
@@ -63,7 +99,5 @@ class HttpTransporter implements Transporter
         if (isset($response['errors']) && $response['errors'] !== []) {
             throw new ErrorException(message: reset($response['errors']));
         }
-
-        return $response;
     }
 }

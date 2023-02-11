@@ -24,3 +24,8 @@ function retrieveAttachment(): array
         'thumbnail' => 'https://www.example.com/jira/secure/thumbnail/10000',
     ];
 }
+
+function downloadAttachment(): string
+{
+    return '{"a":"b"}\n';
+}

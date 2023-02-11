@@ -38,29 +38,35 @@ it('can send valid request and receive no-content response', function () {
     $this->http->request(payload: Payload::create(uri: 'api/2/issues'));
 });
 
-it('can send valid request and receive invalid response (errorMessage)', function () {
+it('can send valid request and receive invalid response (errorMessage)', function (string $function) {
     $this->client->shouldReceive('sendRequest')
         ->once()
         ->andReturn(new Response(status: 400, body: json_encode(errorMessage())));
 
-    $this->http->request(payload: Payload::create(uri: 'api/2/issues'));
-})->throws(ErrorException::class, errorMessage()['errorMessage'], 0);
+    $this->http->{$function}(payload: Payload::create(uri: 'api/2/issues'));
+})
+    ->with('functions')
+    ->throws(ErrorException::class, errorMessage()['errorMessage'], 0);
 
-it('can send valid request and receive invalid response (errorMessages)', function () {
+it('can send valid request and receive invalid response (errorMessages)', function (string $function) {
     $this->client->shouldReceive('sendRequest')
         ->once()
         ->andReturn(new Response(status: 400, body: json_encode(errorMessages())));
 
-    $this->http->request(payload: Payload::create(uri: 'api/2/issues'));
-})->throws(ErrorException::class, errorMessages()['errorMessages'][0], 0);
+    $this->http->{$function}(payload: Payload::create(uri: 'api/2/issues'));
+})
+    ->with('functions')
+    ->throws(ErrorException::class, errorMessages()['errorMessages'][0], 0);
 
-it('can send valid request and receive invalid response (errors)', function () {
+it('can send valid request and receive invalid response (errors)', function (string $function) {
     $this->client->shouldReceive('sendRequest')
         ->once()
         ->andReturn(new Response(status: 400, body: json_encode(errors())));
 
-    $this->http->request(payload: Payload::create(uri: 'api/2/issues'));
-})->throws(ErrorException::class, errors()['errors']['customfield_18208'], 0);
+    $this->http->{$function}(payload: Payload::create(uri: 'api/2/issues'));
+})
+    ->with('functions')
+    ->throws(ErrorException::class, errors()['errors']['customfield_18208'], 0);
 
 it('can send valid request and receive invalid response (syntax)', function () {
     $this->client->shouldReceive('sendRequest')
@@ -70,7 +76,7 @@ it('can send valid request and receive invalid response (syntax)', function () {
     $this->http->request(payload: Payload::create(uri: 'api/2/issues'));
 })->throws(UnserializableResponse::class, 'Syntax error', 0);
 
-it('will fail because of a client errors', function () {
+it('will fail because of a client errors', function (string $function) {
     $payload = Payload::create(
         uri: 'api/2/issues',
     );
@@ -87,5 +93,15 @@ it('will fail because of a client errors', function () {
             )
         );
 
-    $this->http->request(payload: $payload);
-})->throws(TransporterException::class, 'Could not resolve host.', 0);
+    $this->http->{$function}(payload: $payload);
+})
+    ->with('functions')
+    ->throws(TransporterException::class, 'Could not resolve host.', 0);
+
+it('can send valid requestContent and receive valid response', function () {
+    $this->client->shouldReceive('sendRequest')
+        ->once()
+        ->andReturn(new Response(body: ''));
+
+    $this->http->requestContent(payload: Payload::create(uri: 'https://www.example.com/jira/attachments/10000', query: ['a' => 'b']));
+});
