@@ -97,6 +97,27 @@ null
 
 ---
 
+#### `download` function
+
+Download an attachment content.
+
+```php
+$attachment = $client->attachments()->get(id: '1000');
+
+$client->attachments()->download(url: $attachment['content']);
+```
+
+<details>
+<summary>response example</summary>
+
+```text
+{"a":"b"}\n
+```
+
+</details>
+
+---
+
 ### `Customers` Resource
 
 #### `create` function
