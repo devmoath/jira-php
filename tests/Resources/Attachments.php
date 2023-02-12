@@ -24,3 +24,16 @@ it('can remove an attachment', function () {
 
     expect($result)->toBeNull();
 });
+
+it('can download an attachment content', function () {
+    $client = mockClient(
+        method: Method::GET,
+        uri: 'https://www.example.com/jira/attachments/10000',
+        response: downloadAttachment(),
+        function: 'requestContent'
+    );
+
+    $result = $client->attachments()->download(url: 'https://www.example.com/jira/attachments/10000');
+
+    expect($result)->toBe(downloadAttachment());
+});

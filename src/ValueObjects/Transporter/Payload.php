@@ -64,7 +64,7 @@ class Payload
 
         return new Psr7Request(
             method: $this->method->value,
-            uri: $baseUri.$this->uri.$query,
+            uri: filter_var(value: $this->uri, filter: FILTER_VALIDATE_URL) !== false ? $this->uri.$query : $baseUri.$this->uri.$query,
             headers: $headers->toArray(),
             body: $body,
         );

@@ -20,4 +20,11 @@ interface Transporter
      * @throws \JsonException
      */
     public function request(Payload $payload): ?array;
+
+    /**
+     * @throws \Jira\Exceptions\ErrorException
+     * @throws \Jira\Exceptions\TransporterException
+     * @throws \JsonException
+     */
+    public function requestContent(Payload $payload): string;
 }
