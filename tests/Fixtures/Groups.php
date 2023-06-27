@@ -25,7 +25,7 @@ function createGroup(): array
 
 function getGroupUsers(): array
 {
-    return  [
+    return [
         'self' => 'https://www.example.com/jira/rest/api/2/group/member?groupname=jira-administrators&includeInactiveUsers=false&startAt=2&maxResults=2',
         'nextPage' => 'https://www.example.com/jira/rest/api/2/group/member?groupname=jira-administrators&includeInactiveUsers=false&startAt=4&maxResults=2',
         'maxResults' => 2,
