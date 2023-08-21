@@ -1301,6 +1301,14 @@ $client->users()->get(query: [...]);
 
 </details>
 
----
+## Contributing
+
+Thank you for considering contributing to the Jira PHP! The contribution guide can be found in the [CONTRIBUTING](CONTRIBUTING.md).
+
+## Security Vulnerabilities
+
+If you discover any security-related issues, please email moath.alhajrii@gmail.com instead of using the issue tracker.
+
+## License
 
 Jira PHP is an open-sourced software licensed under the **[MIT license](https://opensource.org/licenses/MIT)**.
